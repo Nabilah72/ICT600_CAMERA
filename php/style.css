@@ -1,0 +1,130 @@
+/* Original styles preserved */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #000000; /* black background */
+    color: #ffffff; /* white text */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+h2 {
+    text-align: center;
+    color: #FFD700; /* gold title */
+    margin-bottom: 20px;
+}
+
+.form-container {
+    background-color: #1a1a1a; /* dark gray form box */
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px #FFD700;
+    width: 100%;
+    max-width: 400px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #FFD700;
+    font-weight: bold;
+}
+input[type="tel"],
+input[type="email"],
+input[type="role"],
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #FFD700;
+    border-radius: 5px;
+    background-color: #000000;
+    color: #ffffff;
+    box-sizing: border-box;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #FFD700;
+    border-radius: 5px;
+    background-color: #000000;
+    color: #ffffff;
+    box-sizing: border-box;
+    appearance: none; /* remove default arrow in some browsers */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" fill="%23FFD700" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+}
+
+select:focus {
+    outline: none;
+    box-shadow: 0 0 5px #FFD700;
+}
+
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #FFD700;
+    color: #000000;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #e6c200;
+    transform: scale(1.05); /* Slightly enlarge the button on hover */
+}
+
+p {
+    text-align: center;
+    margin-top: 15px;
+}
+
+a {
+    color: #FFD700;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.error-message {
+    color: #ff4d4d;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.success-message {
+    color: #4dff4d;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* Add responsiveness for smaller screens */
+@media screen and (max-width: 480px) {
+    .form-container {
+        padding: 20px;
+        max-width: 100%;
+    }
+
+    button {
+        font-size: 14px; /* Smaller button text on small screens */
+    }
+}
