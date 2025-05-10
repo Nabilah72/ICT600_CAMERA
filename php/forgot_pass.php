@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Forgot Password</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../css/form.css">
 </head>
 
 <body>
@@ -68,10 +68,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <!-- Forgot Password Form -->
         <form action="forgot_pass.php" method="POST">
             <label for="staff_id">Staff ID:</label>
-            <input type="text" id="staff_id" name="staff_id" required><br><br>
+            <input type="text" id="staff_id" name="staff_id" required><br>
 
             <label for="new_password">New Password:</label>
-            <input type="password" id="new_password" name="new_password" required><br><br>
+            <input type="password" id="new_password" name="new_password" required><br>
 
             <label for="confirm_password">Confirm Password:</label>
             <input type="password" id="confirm_password" name="confirm_password" required><br><br>
