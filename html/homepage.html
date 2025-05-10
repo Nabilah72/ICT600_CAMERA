@@ -7,11 +7,8 @@
 </head>
 
 <body>
-
-    <!-- Navbar container -->
     <div id="navbar"></div>
 
-    <!-- Main content -->
     <div style="margin-left: 220px; padding: 20px;">
         <h1>Welcome to Shah Alam Camera</h1>
         <p>
@@ -19,13 +16,13 @@
             Explore our dashboard to manage staff, suppliers, products, orders, and customers with ease.
         </p>
     </div>
-
-    <!-- JavaScript to load navbar -->
     <script>
-        fetch('../html/navbar.html') // Adjust the path if needed
+        // Load navbar.html into #navbar
+        fetch('navbar.html')
             .then(response => response.text())
-            .then(data => document.getElementById('navbar').innerHTML = data)
-            .catch(error => console.error('Error loading navbar:', error));
+            .then(data => {
+                document.getElementById('navbar').innerHTML = data;
+            });
     </script>
 
 </body>

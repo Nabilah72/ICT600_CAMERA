@@ -18,16 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
 </head>
 
 <body>
-
     <?php include "../html/navbar.html"; ?>
 
-    <div style="margin-left: 220px; padding: 20px;">
-        <h2>Settings</h2>
+    <h2>Settings</h2>
 
-        <form method="POST" action="settings.php">
-            <button type="submit" name="logout">Logout</button>
-        </form>
-    </div>
+    <form method="POST" action="settings.php">
+        <button type="submit" name="logout">Logout</button>
+    </form>
 
 </body>
 

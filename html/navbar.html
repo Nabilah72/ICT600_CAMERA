@@ -3,82 +3,46 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Shah Alam Camera - Sidebar</title>
+    <title>Shah Alam Camera</title>
+    <link rel="stylesheet" href="../css/navbar.css">
 </head>
 
 <body>
-    <div
-        style="width: 200px; height: 100vh; background-color: #f0f0f0; float: left; padding: 20px; box-sizing: border-box;">
-        <!-- Logo and Title -->
-        <div style="text-align: center; margin-bottom: 20px;">
+    <div class="sidebar">
+        <div class="logo-section">
             <a href="homepage.html">
-                <img src="../images/logo.png" alt="Logo" width="100" style="display: block; margin: 0 auto;">
+                <img src="../images/logo.png" alt="Logo" class="logo">
             </a>
-            <h3 style="margin-top: 10px;">Shah Alam Camera</h3>
+            <h3 class="title">Shah Alam Camera</h3>
         </div>
 
-        <!-- Navigation Links -->
         <nav>
-            <ul style="list-style-type: none; padding: 0; margin: 0;">
-                <li style="margin-bottom: 10px;"><a href="../html/homepage.html">Home</a></li>
-                <li style="margin-bottom: 10px;"><a href="../php/staff.php">Staff</a></li>
-                <li style="margin-bottom: 10px;"><a href="../php/supplier.php">Supplier</a></li>
-                <li style="margin-bottom: 10px;"><a href="../php/product.php">Product</a></li>
-                <li style="margin-bottom: 10px;"><a href="../php/order.php">Order</a></li>
-                <li style="margin-bottom: 10px;"><a href="../php/customer.php">Customer</a></li>
-                <li style="margin-bottom: 10px;"><a href="../php/settings.php">Settings</a></li>
+            <ul class="nav-list">
+                <li><a href="../html/homepage.html">Home</a></li>
+                <li><a href="../php/staff.php">Staff</a></li>
+                <li><a href="../php/supplier.php">Supplier</a></li>
+                <li><a href="../php/product.php">Product</a></li>
+                <li><a href="../php/order.php">Order</a></li>
+                <li><a href="../php/customer.php">Customer</a></li>
+                <li><a href="../php/settings.php">Settings</a></li>
             </ul>
         </nav>
     </div>
-    <style>
-        /* Sidebar container */
-        .sidebar {
-            width: 200px;
-            height: 100vh;
-            background-color: #f0f0f0;
-            float: left;
-            padding: 20px;
-            box-sizing: border-box;
-        }
 
-        /* Logo section */
-        .logo-section {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+    <script>
+        // Get current page filename
+        const currentPage = window.location.pathname.split("/").pop();
 
-        .logo {
-            display: block;
-            margin: 0 auto;
-            width: 100px;
-        }
+        // Get all nav links
+        const navLinks = document.querySelectorAll(".nav-list a");
 
-        .title {
-            margin-top: 10px;
-        }
-
-        /* Navigation */
-        .nav-list {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .nav-list li {
-            margin-bottom: 10px;
-        }
-
-        .nav-list a {
-            text-decoration: none;
-            color: #333;
-            font-weight: bold;
-        }
-
-        .nav-list a:hover {
-            color: #000;
-            text-decoration: underline;
-        }
-    </style>
+        navLinks.forEach(link => {
+            const linkPage = link.getAttribute("href").split("/").pop();
+            if (linkPage === currentPage) {
+                link.classList.add("active");
+            }
+        });
+    </script>
 </body>
 
 </html>

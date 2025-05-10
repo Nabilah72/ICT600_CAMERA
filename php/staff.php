@@ -21,15 +21,13 @@ if (!$result) {
 <head>
     <meta charset="UTF-8">
     <title>Staff Management</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
     <!-- Include navigation bar -->
     <?php include "../html/navbar.html"; ?>
 
-    <div class="container mt-4">
+    <div class="container">
         <h1>Staff Management</h1>
 
         <!-- Staff table -->
@@ -153,10 +151,7 @@ if (!$result) {
             </div>
         </div>
     <?php endif; ?>
-
-    <!-- Bootstrap JS for modal functionality -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+    
     <!-- Populate modal fields with staff data when Edit button is clicked -->
     <script>
         document.querySelectorAll('.editBtn').forEach(button => {

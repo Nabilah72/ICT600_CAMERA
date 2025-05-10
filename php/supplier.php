@@ -25,7 +25,7 @@ $result = $connect->query($sql);
     <!-- Navigation Bar -->
     <?php include "../html/navbar.html"; ?>
 
-    <div class="container mt-4">
+    <div class="container">
         <h1>Supplier Management</h1>
 
         <!-- Show "Add New Supplier" button only if the user is an admin -->
