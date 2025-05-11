@@ -20,15 +20,18 @@ $action = $_POST['action'] ?? $_GET['action'] ?? '';
 if ($action === 'add') {
     $custID = generateCustomerID($connect);
     $name = titleCase($_POST['name']);
+    if (!preg_match("/^[a-zA-Z\s]+$/", $name)) {
+        header("Location: customer.php?error=invalidName");
+        exit;
+    }
+
     $phone = preg_replace("/\D/", "", subject: $_POST['phone']);
     $email = strtolower(trim($_POST['email']));
 
     $stmt = $connect->prepare("INSERT INTO customer (custID, custName, custPhone, custEmail) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("ssss", $custID, $name, $phone, $email);
     $stmt->execute() ? header("Location: customer.php?success=added") : header("Location: customer.php?error=add");
-} 
-
-elseif ($action === 'edit') {
+} elseif ($action === 'edit') {
     $stmt = $connect->prepare("SELECT * FROM customer WHERE custID = ?");
     $stmt->bind_param("s", $_POST['id']);
     $stmt->execute();
@@ -36,6 +39,10 @@ elseif ($action === 'edit') {
 
     if ($result && $result->num_rows > 0) {
         $name = titleCase($_POST['name']);
+        if (!preg_match("/^[a-zA-Z\s]+$/", $name)) {
+            header("Location: customer.php?error=invalidName");
+            exit;
+        }
         $phone = preg_replace("/\D/", "", subject: $_POST['phone']);
         $email = strtolower(trim($_POST['email']));
 
@@ -45,11 +52,9 @@ elseif ($action === 'edit') {
     } else {
         header("Location: customer.php?error=invalidID");
     }
-} 
-
-elseif ($action === 'delete') {
+} elseif ($action === 'delete') {
     $stmt = $connect->prepare("DELETE FROM customer WHERE custID = ?");
-    $stmt->bind_param("s", $_GET['id']);
+    $stmt->bind_param("s", $_POST['id']);
     $stmt->execute() ? header("Location: customer.php?success=deleted") : header("Location: customer.php?error=delete");
 }
 ?>

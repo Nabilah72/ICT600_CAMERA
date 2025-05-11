@@ -12,7 +12,11 @@ if (isset($_POST['action']) && $_POST['action'] === 'update') {
     // Retrieve input values from the form
     $id = $_POST['staffID'];
     $name = titleCase(string: $_POST['staffName']); // Title case
-    $phone = preg_replace("/\D/", "", subject: $_POST['staffPhone']);
+    if (!preg_match("/^[a-zA-Z\s]+$/", $name)) {
+        header("Location: staff.php?error=invalidName");
+        exit;
+    }
+    $phone = preg_replace("/\D/", "", $_POST['staffPhone']); // Remove non-digits
     $email = strtolower(string: trim($_POST['staffEmail'])); // Lowercase
     $role = trim($_POST['staffRole']);
     $status = trim($_POST['staffStatus']);

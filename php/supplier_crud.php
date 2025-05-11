@@ -28,9 +28,12 @@ $action = $_POST['action'] ?? $_GET['action'] ?? '';
 if ($action === 'add') {
     // Generate a new supplier ID
     $suppID = generateSupplierID($connect);
-
     // Get form data
     $name = titleCase($_POST['name']);
+    if (!preg_match("/^[a-zA-Z\s]+$/", $name)) {
+        header("Location: customer.php?error=invalidName");
+        exit;
+    }
     $phone = preg_replace("/\D/", "", subject: $_POST['phone']);
     $email = strtolower(trim($_POST['email']));
     $address = titleCase($_POST['address']);
@@ -53,6 +56,10 @@ elseif ($action === 'edit') {
 
     if ($result && $result->num_rows > 0) {
         $name = titleCase($_POST['name']);
+        if (!preg_match("/^[a-zA-Z\s]+$/", $name)) {
+            header("Location: customer.php?error=invalidName");
+            exit;
+        }
         $phone = preg_replace("/\D/", "", subject: $_POST['phone']);
         $email = strtolower(trim($_POST['email']));
         $address = titleCase($_POST['address']);

@@ -1,70 +1,70 @@
 <?php
-session_start(); // Start session to store user login information
-include "connection.php"; // Include the database connection
+session_start();
+include "connection.php";
 
-// Check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Get values from form input
     $staff_id = $_POST['staff_id'];
     $password = $_POST['password'];
 
-    // Prepare SQL to prevent SQL injection
     $sql = "SELECT * FROM staff WHERE staffID = ? AND staffPassword = ?";
     $stmt = $connect->prepare($sql);
-    $stmt->bind_param("ss", $staff_id, $password); // "ss" means both values are strings
+    $stmt->bind_param("ss", $staff_id, $password);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    // Check if user exists and password matches
     if ($result->num_rows === 1) {
-        // Login successful
-        $row = $result->fetch_assoc(); // Fetch the row from the result
-        $_SESSION['staff_id'] = $staff_id; // Store staff ID in session
-        $_SESSION['staffName'] = $row['staffName']; // Store staff name in session
-        $_SESSION['staffRole'] = $row['staffRole']; // Store the role here
-        header("Location: ../html/homepage.html"); // Redirect to homepage
+        $row = $result->fetch_assoc();
+        $_SESSION['staff_id'] = $staff_id;
+        $_SESSION['staffName'] = $row['staffName'];
+        $_SESSION['staffRole'] = $row['staffRole'];
+        header("Location: ../html/homepage.html");
         exit();
     } else {
-        // Invalid credentials
         $error_message = "Invalid Staff ID or Password.";
     }
 
-    $stmt->close(); // Close the statement
+    $stmt->close();
 }
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
     <title>Login</title>
     <link rel="stylesheet" href="../css/form.css">
 </head>
 
 <body>
-
+    <h2 class="page-title">Login</h2>
     <div class="form-container">
-        <h2>Login</h2>
-
-        <!-- Display error message if login fails -->
         <?php if (isset($error_message))
             echo "<p class='error-message'>$error_message</p>"; ?>
 
-        <!-- Login Form -->
         <form action="login.php" method="POST">
-            <label for="staff_id">Staff ID:</label>
-            <input type="text" id="staff_id" name="staff_id" required>
+            <div class="input-group">
+                <input type="text" name="staff_id" placeholder="Staff ID" required>
+                <span class="icon">&#128100;</span>
+            </div>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required><br><br>
+            <div class="input-group">
+                <input type="password" name="password" placeholder="Password" required>
+                <span class="icon">&#128274;</span>
+            </div>
+
+            <div class="link-right">
+                <a href="forgot_pass.php">Forgot Password?</a>
+            </div>
 
             <button type="submit">Login</button>
+            <hr>
         </form>
 
-        <p><a href="forgot_pass.php">Forgot Password?</a></p>
-        <p>Don't have an account? <a href="signup.php">Sign Up here</a>.</p>
+        <p class="prompt">Don't have an account?
+            <a href="signup.php">Sign Up here</a>
+        </p>
     </div>
-
 </body>
 
 </html>

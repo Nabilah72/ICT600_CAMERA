@@ -44,7 +44,7 @@ elseif ($action === 'edit') {
 // Delete Product
 elseif ($action === 'delete') {
     $stmt = $connect->prepare("DELETE FROM product WHERE productID = ?");
-    $stmt->bind_param("s", $_GET['id']);
+    $stmt->bind_param("s", $_POST['id']);
     $stmt->execute() ? header("Location: product.php?success=deleted") : header("Location: product.php?error=delete");
 }
 ?>

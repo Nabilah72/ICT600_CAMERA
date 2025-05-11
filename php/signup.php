@@ -27,48 +27,54 @@ function titleCase($string)
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = titleCase($_POST['name']);
     $password = $_POST['password'];
-    $tel = preg_replace("/\D/", "", $_POST['tel']); // Remove non-numeric characters
+    $confirm_password = $_POST['confirm_password'];
+    $tel = preg_replace("/\D/", "", $_POST['tel']);
     $email = strtolower(trim($_POST['email']));
-    $role = 'Staff'; // Default role
+    $role = 'Staff';
 
-    // Check for duplicate email
-    $check_email_sql = "SELECT * FROM staff WHERE staffEmail = ?";
-    $stmt = $connect->prepare($check_email_sql);
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result_email = $stmt->get_result();
-
-    // Check for duplicate phone number
-    $check_phone_sql = "SELECT * FROM staff WHERE staffPhone = ?";
-    $stmt_phone = $connect->prepare($check_phone_sql);
-    $stmt_phone->bind_param("s", $tel);
-    $stmt_phone->execute();
-    $result_phone = $stmt_phone->get_result();
-
-    if ($result_email->num_rows > 0) {
-        $error_message = "Email already exists.";
-    } elseif ($result_phone->num_rows > 0) {
-        $error_message = "Phone number already exists.";
+    if ($password !== $confirm_password) {
+        $error_message = "Passwords do not match.";
     } else {
-        $staff_id = generateStaffID($connect);
+        // Check for duplicate email
+        $check_email_sql = "SELECT * FROM staff WHERE staffEmail = ?";
+        $stmt = $connect->prepare($check_email_sql);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result_email = $stmt->get_result();
 
-        $insert_sql = "INSERT INTO staff (staffID, staffName, staffPassword, staffPhone, staffEmail, staffRole) 
-                       VALUES (?, ?, ?, ?, ?, ?)";
-        $stmt_insert = $connect->prepare($insert_sql);
-        $stmt_insert->bind_param("ssssss", $staff_id, $name, $password, $tel, $email, $role);
+        // Check for duplicate phone number
+        $check_phone_sql = "SELECT * FROM staff WHERE staffPhone = ?";
+        $stmt_phone = $connect->prepare($check_phone_sql);
+        $stmt_phone->bind_param("s", $tel);
+        $stmt_phone->execute();
+        $result_phone = $stmt_phone->get_result();
 
-        if ($stmt_insert->execute()) {
-            $success_message = "Registration successful. Your Staff ID is $staff_id. <a href='login.php'>Login</a>.";
+        if ($result_email->num_rows > 0) {
+            $error_message = "Email already exists.";
+        } elseif ($result_phone->num_rows > 0) {
+            $error_message = "Phone number already exists.";
         } else {
-            $error_message = "Error during registration. Please try again.";
+            $staff_id = generateStaffID($connect);
+
+            $insert_sql = "INSERT INTO staff (staffID, staffName, staffPassword, staffPhone, staffEmail, staffRole) 
+                           VALUES (?, ?, ?, ?, ?, ?)";
+            $stmt_insert = $connect->prepare($insert_sql);
+            $stmt_insert->bind_param("ssssss", $staff_id, $name, $password, $tel, $email, $role);
+
+            if ($stmt_insert->execute()) {
+                $success_message = "Registration successful. Your Staff ID is $staff_id. <a href='login.php'>Login</a>.";
+            } else {
+                $error_message = "Error during registration. Please try again.";
+            }
+
+            $stmt_insert->close();
         }
 
-        $stmt_insert->close();
+        $stmt->close();
+        $stmt_phone->close();
     }
-
-    $stmt->close();
-    $stmt_phone->close();
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -80,9 +86,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 
 <body>
+    <h2>Sign Up</h2>
 
     <div class="form-container">
-        <h2>Sign Up</h2>
 
         <?php
         if (isset($error_message)) {
@@ -94,22 +100,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         ?>
 
         <form action="signup.php" method="POST">
-            <label for="name">Full Name:</label>
-            <input type="text" id="name" name="name" required>
+            <div class="input-group">
+                <input type="text" name="name" placeholder="Full Name" required>
+                <span class="icon">&#128100;</span>
+            </div>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+            <div class="input-group">
+                <input type="email" name="email" placeholder="Email" required>
+                <span class="icon">📧</span>
+            </div>
 
-            <label for="tel">Tel:</label>
-            <input type="tel" id="tel" name="tel" required>
+            <div class="input-group">
+                <input type="tel" name="tel" placeholder="Telephone" required>
+                <span class="icon">📞</span>
+            </div>
 
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required><br><br>
+            <div class="input-group">
+                <input type="password" name="password" placeholder="Password" required>
+                <span class="icon">&#128274;</span>
+            </div>
+
+            <div class="input-group">
+                <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+                <span class="icon">&#128274;</span>
+            </div>
 
             <button type="submit">Sign Up</button>
+            <hr>
         </form>
 
-        <p>Already have an account? <a href="login.php">Login here</a>.</p>
+        <p class="prompt">Already have an account?
+            <a href="login.php">Login here</a>
+        </p>
     </div>
 
 </body>

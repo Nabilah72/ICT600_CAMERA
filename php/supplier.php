@@ -16,153 +16,243 @@ $result = $connect->query($sql);
 <head>
     <meta charset="UTF-8">
     <title>Supplier Management</title>
+    <link rel="stylesheet" href="../css/table.css">
 </head>
 
 <body>
+    <div class="wrapper">
+        <?php include 'sidebar.php'; ?>
 
-    <!-- Navigation Bar -->
-    <?php include "../html/navbar.html"; ?>
+        <div class="container">
+            <h1>Supplier Management</h1>
 
-    <div class="container">
-        <h1>Supplier Management</h1>
+            <!-- Show "Add New Supplier" button only if the user is an admin -->
+            <?php if ($is_admin): ?>
+                <button id="openAddModal">Add New Supplier</button><br><br>
+            <?php endif; ?>
 
-        <!-- Show "Add New Supplier" button only if the user is an admin -->
-        <?php if ($is_admin): ?>
-            <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addSupplierModal">Add New
-                Supplier</button>
-        <?php endif; ?>
-
-        <!-- Supplier Table -->
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-                <thead class="table-light">
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Phone</th>
-                        <th>Email</th>
-                        <th>Address</th>
-                        <th>Status</th>
-                        <?php if ($is_admin): ?>
-                            <th>Action</th> <!-- Edit/Delete actions shown only to admin -->
-                        <?php endif; ?>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Loop through each supplier and display in the table -->
-                    <?php while ($row = $result->fetch_assoc()): ?>
+            <!-- Supplier Table -->
+            <div>
+                <table>
+                    <thead>
                         <tr>
-                            <td><?= htmlspecialchars($row['suppID']) ?></td>
-                            <td><?= htmlspecialchars($row['suppName']) ?></td>
-                            <td><?= htmlspecialchars($row['suppPhone']) ?></td>
-                            <td><?= htmlspecialchars(string: $row['suppEmail']) ?></td>
-                            <td><?= htmlspecialchars($row['suppAddress']) ?></td>
-                            <td><?= htmlspecialchars($row['suppStatus']) ?></td>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                            <th>Status</th>
                             <?php if ($is_admin): ?>
-                                <td>
-                                    <!-- Edit Button: Triggers Edit Modal with pre-filled data -->
-                                    <button class="btn btn-warning btn-sm editBtn" data-bs-toggle="modal"
-                                        data-bs-target="#editSupplierModal" data-id="<?= $row['suppID'] ?>"
-                                        data-name="<?= $row['suppName'] ?>" data-phone="<?= $row['suppPhone'] ?>"
-                                        data-email="<?= $row['suppEmail'] ?>" data-address="<?= $row['suppAddress'] ?>"
-                                        data-suppStatus="<?= $row['suppStatus'] ?>">
-                                        Edit
-                                    </button>
-                                </td>
+                                <th>Action</th>
                             <?php endif; ?>
                         </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php while ($row = $result->fetch_assoc()): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($row['suppID']) ?></td>
+                                <td><?= htmlspecialchars($row['suppName']) ?></td>
+                                <td><?= htmlspecialchars($row['suppPhone']) ?></td>
+                                <td><?= htmlspecialchars($row['suppEmail']) ?></td>
+                                <td><?= htmlspecialchars($row['suppAddress']) ?></td>
+                                <td><?= htmlspecialchars($row['suppStatus']) ?></td>
+                                <?php if ($is_admin): ?>
+                                    <td>
+                                        <button class="editBtn" data-id="<?= $row['suppID'] ?>"
+                                            data-name="<?= $row['suppName'] ?>" data-phone="<?= $row['suppPhone'] ?>"
+                                            data-email="<?= $row['suppEmail'] ?>" data-address="<?= $row['suppAddress'] ?>"
+                                            data-status="<?= $row['suppStatus'] ?>">
+                                            Edit
+                                        </button>
+                                    </td>
+                                <?php endif; ?>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
-    <!-- Add Supplier Modal (Only visible to Admins) -->
-    <div class="modal fade" id="addSupplierModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <form action="supplier_crud.php" method="POST" class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add Supplier</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    <!-- Add Supplier Modal -->
+    <div class="popup-modal" id="addPopupModal">
+        <div class="popup-content">
+            <span class="close-btn" id="closeAddModal">&times;</span>
+            <h2>Add Supplier</h2>
+            <form action="supplier_crud.php" method="POST">
+                <input type="hidden" name="action" value="add">
+
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" name="name" id="addSupplierName" required>
                 </div>
-                <div class="modal-body">
-                    <!-- Supplier input fields -->
-                    <div class="mb-3"><label class="form-label">Name</label><input type="text" name="name"
-                            class="form-control" required></div>
-                    <div class="mb-3"><label class="form-label">Phone</label><input type="text" name="phone"
-                            class="form-control" required></div>
-                    <div class="mb-3"><label class="form-label">Email</label><input type="email" name="email"
-                            class="form-control" required></div>
-                    <div class="mb-3"><label class="form-label">Address</label><textarea name="address"
-                            class="form-control" required></textarea></div>
-                    <div class="mb-3">
-                        <label class="form-label">Status</label>
-                        <select class="form-select" name="suppStatus" id="editSupplierStatus" required>
-                            <option value="Active">Active</option>
-                            <option value="Inactive">Inactive</option>
-                        </select>
-                    </div>
+
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="text" name="phone" id="addSupplierPhone" required>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" name="action" value="add" class="btn btn-primary">Add Supplier</button>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" id="addSupplierEmail" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea name="address" id="addSupplierAddress" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name="suppStatus" id="addSupplierStatus" required>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button class="blueBtn" type="submit">Add Supplier</button>
+                    <button type="button" id="cancelModal">Cancel</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Edit Supplier Modal (Pre-filled with selected supplier's data) -->
-    <div class="modal fade" id="editSupplierModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <form action="supplier_crud.php" method="POST" class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Edit Supplier</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    <!-- Edit Supplier Modal -->
+    <div class="popup-modal" id="popupModal">
+        <div class="popup-content">
+            <span class="close-btn" id="closeModal">&times;</span>
+            <h2>Edit Supplier</h2>
+            <form action="supplier_crud.php" method="POST">
+                <input type="hidden" name="action" value="edit">
+                <input type="hidden" name="id" id="editSupplierID">
+
+                <div class="form-group">
+                    <label>Supplier ID</label>
+                    <input type="text" id="editSuppIDDisplay" disabled>
                 </div>
-                <div class="modal-body">
-                    <!-- Hidden fields to pass action and supplier ID -->
-                    <input type="hidden" name="action" value="edit">
-                    <input type="hidden" name="id" id="editSupplierID">
-                    <!-- Uneditable fields for Supplier ID -->
-                    <div class="mb-3">
-                            <label class="form-label">Supplier ID</label>
-                            <input type="text" id="editSuppIDDisplay" class="form-control" disabled>
-                        </div>
-                    <!-- Editable fields pre-filled via JavaScript -->
-                    <div class="mb-3"><label class="form-label">Name</label><input type="text" name="name"
-                            id="editSupplierName" class="form-control" required></div>
-                    <div class="mb-3"><label class="form-label">Phone</label><input type="text" name="phone"
-                            id="editSupplierPhone" class="form-control" required></div>
-                    <div class="mb-3"><label class="form-label">Email</label><input type="email" name="email"
-                            id="editSupplierEmail" class="form-control" required></div>
-                    <div class="mb-3"><label class="form-label">Address</label><textarea name="address"
-                            id="editSupplierAddress" class="form-control" required></textarea></div>
-                    <div class="mb-3">
-                        <label class="form-label">Status</label>
-                        <select class="form-select" name="suppStatus" id="editSupplierStatus" required>
-                            <option value="Active">Active</option>
-                            <option value="Inactive">Inactive</option>
-                        </select>
-                    </div>
+
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" name="name" id="editSupplierName" required>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Update Supplier</button>
+
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="text" name="phone" id="editSupplierPhone" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" id="editSupplierEmail" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea name="address" id="editSupplierAddress" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name="suppStatus" id="editSupplierStatus" required>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button class="blueBtn" type="submit">Save Changes</button>
+                    <button type="button" id="cancelModal">Cancel</button>
                 </div>
             </form>
         </div>
     </div>
-    <!-- JavaScript to populate Edit Supplier modal fields dynamically -->
+
+    <!-- JavaScript -->
     <script>
+        const popupModal = document.getElementById('popupModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const cancelModalBtn = document.getElementById('cancelModal');
+
+        const editFields = {
+            id: document.getElementById('editSupplierID'),
+            idDisplay: document.getElementById('editSuppIDDisplay'),
+            name: document.getElementById('editSupplierName'),
+            phone: document.getElementById('editSupplierPhone'),
+            email: document.getElementById('editSupplierEmail'),
+            address: document.getElementById('editSupplierAddress'),
+            status: document.getElementById('editSupplierStatus'),
+        };
+
+        function showModal(data) {
+            popupModal.style.display = 'flex';
+            setTimeout(() => popupModal.classList.add('show'), 10);
+
+            editFields.id.value = data.id;
+            editFields.idDisplay.value = data.id;
+            editFields.name.value = data.name;
+            editFields.phone.value = data.phone;
+            editFields.email.value = data.email;
+            editFields.address.value = data.address;
+            editFields.status.value = data.status;
+        }
+
+        function closeModal() {
+            popupModal.classList.remove('show');
+            setTimeout(() => {
+                popupModal.style.display = 'none';
+                Object.values(editFields).forEach(field => {
+                    if (field.tagName === 'INPUT' || field.tagName === 'TEXTAREA' || field.tagName === 'SELECT') {
+                        field.value = '';
+                    }
+                });
+            }, 300);
+        }
+
         document.querySelectorAll('.editBtn').forEach(button => {
             button.addEventListener('click', () => {
-                // Fill modal form with supplier data from data attributes
-                document.getElementById('editSupplierID').value = button.dataset.id;
-                document.getElementById('editSuppIDDisplay').value = button.dataset.id;
-                document.getElementById('editSupplierName').value = button.dataset.name;
-                document.getElementById('editSupplierPhone').value = button.dataset.phone;
-                document.getElementById('editSupplierEmail').value = button.dataset.email;
-                document.getElementById('editSupplierAddress').value = button.dataset.address;
-                document.getElementById('editSupplierStatus').value = button.dataset.suppStatus;
+                showModal({
+                    id: button.dataset.id,
+                    name: button.dataset.name,
+                    phone: button.dataset.phone,
+                    email: button.dataset.email,
+                    address: button.dataset.address,
+                    status: button.dataset.status
+                });
             });
+        });
+
+        closeModalBtn.addEventListener('click', closeModal);
+        cancelModalBtn.addEventListener('click', closeModal);
+        window.addEventListener('click', (e) => {
+            if (e.target === popupModal) closeModal();
+        });
+
+        // Add Modal
+        const addModal = document.getElementById('addPopupModal');
+        const openAddModalBtn = document.getElementById('openAddModal');
+        const closeAddModalBtn = document.getElementById('closeAddModal');
+        const cancelAddModalBtn = document.getElementById('cancelAddModal');
+
+        if (openAddModalBtn) {
+            openAddModalBtn.addEventListener('click', () => {
+                addModal.style.display = 'flex';
+                setTimeout(() => addModal.classList.add('show'), 10);
+            });
+        }
+
+        function closeAddModal() {
+            addModal.classList.remove('show');
+            setTimeout(() => {
+                addModal.style.display = 'none';
+                document.querySelector('#addPopupModal form').reset();
+            }, 300);
+        }
+
+        closeAddModalBtn.addEventListener('click', closeAddModal);
+        cancelAddModalBtn.addEventListener('click', closeAddModal);
+        window.addEventListener('click', (e) => {
+            if (e.target === addModal) closeAddModal();
         });
     </script>
 </body>

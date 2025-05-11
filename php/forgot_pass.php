@@ -53,9 +53,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 
 <body>
+    <h2>Forgot Password</h2>
 
     <div class="form-container">
-        <h2>Forgot Password</h2>
 
         <!-- Show success or error message -->
         <?php
@@ -67,19 +67,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <!-- Forgot Password Form -->
         <form action="forgot_pass.php" method="POST">
-            <label for="staff_id">Staff ID:</label>
-            <input type="text" id="staff_id" name="staff_id" required><br>
-
-            <label for="new_password">New Password:</label>
-            <input type="password" id="new_password" name="new_password" required><br>
-
-            <label for="confirm_password">Confirm Password:</label>
-            <input type="password" id="confirm_password" name="confirm_password" required><br><br>
-
+            <div class="input-group">
+                <input type="text" id="staff_id" name="staff_id" placeholder="Staff ID" required>
+                <span class="icon">&#128100;</span>
+            </div>
+            <div class="input-group">
+                <input type="password" id="new_password" name="new_password" placeholder="New Password" required>
+                <span class="icon">&#128274;</span>
+            </div>
+            <div class="input-group">
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password"
+                    required>
+                <span class="icon">&#128274;</span>
+            </div>
             <button type="submit">Submit</button>
+            <hr>
         </form>
 
-        <p><a href="login.php">Back to Login</a></p>
+        <p class="prompt">
+            <a href="login.php">Back to login</a>
+        </p>
     </div>
 
 </body>
