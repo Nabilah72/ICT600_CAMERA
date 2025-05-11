@@ -1,3 +1,5 @@
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 <?php
 include "connection.php"; // Include the database connection
 
@@ -49,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Forgot Password</title>
-    <link rel="stylesheet" href="../css/form.css">
+    <link rel="stylesheet" href="../css/forms.css">
 </head>
 
 <body>
@@ -69,16 +71,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <form action="forgot_pass.php" method="POST">
             <div class="input-group">
                 <input type="text" id="staff_id" name="staff_id" placeholder="Staff ID" required>
-                <span class="icon">&#128100;</span>
+                <span class="icon"><i class='bx bxs-user'></i></span>
             </div>
             <div class="input-group">
                 <input type="password" id="new_password" name="new_password" placeholder="New Password" required>
-                <span class="icon">&#128274;</span>
+                <span class="icon"><i class='bx bxs-lock'></i></span>
             </div>
             <div class="input-group">
                 <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password"
                     required>
-                <span class="icon">&#128274;</span>
+                <span class="icon"><i class='bx bxs-lock'></i></span>
             </div>
             <button type="submit">Submit</button>
             <hr>

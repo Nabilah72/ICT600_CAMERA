@@ -1,59 +1,106 @@
-<!-- sidebar.php -->
+<!-- Boxicons CDN -->
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 <style>
     .sidebar {
-        width: 220px;
-        background-color: #333;
-        color: #fff;
-        padding: 20px;
-        flex-shrink: 0;
+        width: 80px;
+        background-color: #ffffff;
+        color: #333;
+        padding: 20px 10px;
         display: flex;
         flex-direction: column;
+        align-items: center;
+        border-right: 1px solid #eee;
+        transition: width 0.3s ease;
     }
 
-    .sidebar h2 {
-        margin-top: 0;
-        font-size: 1.5rem;
-        margin-bottom: 1rem;
+    .sidebar:hover {
+        width: 220px;
+        align-items: flex-start;
     }
 
-    .sidebar ul {
-        list-style: none;
-        padding: 0;
+    .sidebar .logo-container {
+        display: flex;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 20px;
     }
 
-    .sidebar ul li {
+    .logo-img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        transition: all 0.3s ease;
+    }
+
+    .sidebar:hover .logo-img {
+        width: 50px;
+        height: 50px;
+        margin: 0 5px;
+    }
+
+    .logo-text {
+        margin-right: 10px;
+        font-size: 1.0rem;
+        font-weight: bold;
+        color: #333;
+        display: none;
+        white-space: nowrap;
+    }
+
+    .sidebar:hover .logo-text {
+        display: inline;
+    }
+
+    .sidebar .menu-item {
+        width: 100%;
         margin: 10px 0;
     }
 
-    .sidebar ul li a {
-        color: #fff;
-        text-decoration: none;
-        padding: 8px 12px;
-        display: block;
-        border-radius: 4px;
-        transition: background 0.3s;
-    }
-
-    .sidebar ul li a:hover,
-    .sidebar ul li a.active {
-        background-color: #555;
-    }
-
-    .wrapper {
+    .sidebar .menu-item a {
         display: flex;
-        min-height: 100vh;
+        align-items: center;
+        gap: 10px;
+        color: #333;
+        text-decoration: none;
+        padding: 10px;
+        border-radius: 8px;
+        transition: background 0.2s ease;
+        white-space: nowrap;
+    }
+
+    .sidebar .menu-item a i {
+        font-size: 20px;
+    }
+
+    .sidebar .menu-item a:hover,
+    .sidebar .menu-item a.active {
+        background-color: #f0f0f0;
+        color: #007bff;
+    }
+
+    .menu-label {
+        display: none;
+    }
+
+    .sidebar:hover .menu-label {
+        display: inline;
     }
 </style>
 
 <div class="sidebar">
-    <h2>Admin Panel</h2>
-    <ul>
-        <li><a href="dashboard.php">Dashboard</a></li>
-        <li><a href="staff.php">Staff Management</a></li>
-        <li><a href="supplier.php">Supplier Management</a></li>
-        <li><a href="product.php">Product Management</a></li>
-        <li><a href="order.php">Order Management</a></li>
-        <li><a href="customer.php">Customer Management</a></li>
-        <li><a href="logout.php">Logout</a></li>
-    </ul>
+    <div class="logo-container">
+        <img src="../images/logo.png" alt="logo" class="logo-img">
+        <span class="logo-text">S.A Camera</span>
+    </div>
+    <div class="menu-item"><a href="../php/dashboard.php"><i class='bx bxs-dashboard'></i> <span class="menu-label">Dashboard</span></a></div>
+    <div class="menu-item"><a href="../php/staff.php"><i class='bx bxs-user'></i> <span class="menu-label">Staff</span></a></div>
+    <div class="menu-item"><a href="../php/supplier.php"><i class='bx bxs-truck'></i> <span class="menu-label">Supplier</span></a></div>
+    <div class="menu-item"><a href="../php/product.php"><i class='bx bxs-camera'></i><span class="menu-label">Product</span></a></div>
+    <div class="menu-item"><a href="../php/order.php"><i class='bx bxs-cart'></i><span class="menu-label">Order</span></a></div>
+    <div class="menu-item"><a href="../php/customer.php"><i class='bx bxs-group'></i> <span class="menu-label">Customer</span></a></div>
+    <div class="menu-item"><a href="../php/logout.php"><i class='bx bxs-log-out'></i> <span class="menu-label">Logout</span></a></div>
 </div>

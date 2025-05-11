@@ -15,16 +15,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
 
 <head>
     <title>Settings</title>
+    <link rel="stylesheet" href="../css/crud.css">
 </head>
 
 <body>
-    <?php include "../html/navbar.html"; ?>
+    <div class="wrapper">
+        <?php include "sidebar.php"; ?>
+        <div class="container">
+            <h2>Settings</h2>
 
-    <h2>Settings</h2>
-
-    <form method="POST" action="settings.php">
-        <button type="submit" name="logout">Logout</button>
-    </form>
+            <form method="POST" action="logout.php">
+                <button style="background-color:red" type="submit" name="logout">Logout</button>
+            </form>
+        </div>
+    </div>
 
 </body>
 

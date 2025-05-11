@@ -13,7 +13,7 @@ $result = $connect->query($sql);
 <head>
     <meta charset="UTF-8">
     <title>Order Management</title>
-    <link rel="stylesheet" href="../css/table.css">
+    <link rel="stylesheet" href="../css/crud.css">
 </head>
 
 <body>

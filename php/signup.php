@@ -1,3 +1,5 @@
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 <?php
 include "connection.php";
 
@@ -82,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <head>
     <title>Sign Up</title>
-    <link rel="stylesheet" href="../css/form.css">
+    <link rel="stylesheet" href="../css/forms.css">
 </head>
 
 <body>
@@ -102,27 +104,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <form action="signup.php" method="POST">
             <div class="input-group">
                 <input type="text" name="name" placeholder="Full Name" required>
-                <span class="icon">&#128100;</span>
+                <span class="icon"><i class='bx bxs-user'></i></span>
             </div>
 
             <div class="input-group">
                 <input type="email" name="email" placeholder="Email" required>
-                <span class="icon">📧</span>
+                <span class="icon"><i class='bx bxs-envelope'></i></span>
             </div>
 
             <div class="input-group">
                 <input type="tel" name="tel" placeholder="Telephone" required>
-                <span class="icon">📞</span>
+                <span class="icon"><i class='bx bxs-phone'></i></span>
             </div>
 
             <div class="input-group">
                 <input type="password" name="password" placeholder="Password" required>
-                <span class="icon">&#128274;</span>
+                <span class="icon"><i class='bx bxs-lock'></i></span>
             </div>
 
             <div class="input-group">
                 <input type="password" name="confirm_password" placeholder="Confirm Password" required>
-                <span class="icon">&#128274;</span>
+                <span class="icon"><i class='bx bxs-lock'></i></span>
             </div>
 
             <button type="submit">Sign Up</button>

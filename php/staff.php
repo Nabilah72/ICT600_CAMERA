@@ -21,7 +21,7 @@ if (!$result) {
 <head>
     <meta charset="UTF-8">
     <title>Staff Management</title>
-    <link rel="stylesheet" href="../css/table.css">
+    <link rel="stylesheet" href="../css/crud.css">
 </head>
 
 <body>
