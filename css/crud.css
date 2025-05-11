@@ -175,6 +175,7 @@ button[type="submit"] {
 }
 
 .blueBtn {
+    width: 150px;
     background-color: #007bff;
 }
 
@@ -185,6 +186,7 @@ button[type="submit"] {
 #cancelAdd,
 #cancelEdit,
 #cancelModal {
+    width: 100px;
     background-color: lightgray;
     color: #000;
 }
@@ -247,6 +249,11 @@ button[type="submit"] {
     /* Darker red on hover */
 }
 
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
 /* Responsive Media Queries */
 @media (max-width: 768px) {
