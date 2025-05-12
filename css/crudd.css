@@ -1,4 +1,4 @@
-/* Base Styles */
+/* Reset and Base Styles */
 * {
     box-sizing: border-box;
 }
@@ -17,10 +17,11 @@ body {
 .container {
     margin: auto;
     padding: 20px;
-    background: #ffffff;
+    background: #fff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Heading */
 h1 {
     text-align: center;
     margin-bottom: 30px;
@@ -31,9 +32,7 @@ h1 {
 .table-container {
     width: 100%;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
     margin-bottom: 20px;
-
 }
 
 table {
@@ -41,13 +40,11 @@ table {
     min-width: 600px;
     border-collapse: collapse;
     background-color: #fff;
-
 }
 
 thead {
     background-color: #e9ecef;
     text-align: center;
-
 }
 
 th,
@@ -56,7 +53,6 @@ td {
     border: 1px solid #dee2e6;
     white-space: nowrap;
     text-align: center;
-
 }
 
 th {
@@ -65,13 +61,13 @@ th {
 }
 
 td button {
-    padding: 8px 10px;
-    background-color: orange;
-    border: none;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
+    padding: 10px;
     font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: white;
+    background-color: orange;
 }
 
 td button:hover {
@@ -82,10 +78,7 @@ td button:hover {
 .popup-modal {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     background: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
@@ -102,7 +95,7 @@ td button:hover {
 }
 
 .popup-content {
-    background-color: #ffffff;
+    background: #fff;
     padding: 30px;
     border-radius: 10px;
     width: 90%;
@@ -129,25 +122,30 @@ td button:hover {
     margin: 0;
 }
 
-.modal-header .close {
+.modal-header .close,
+.close-btn,
+.close {
     position: absolute;
-    right: 15px;
     top: 10px;
+    right: 15px;
     font-size: 20px;
-    cursor: pointer;
+    font-weight: bold;
     background: none;
     border: none;
+    color: #000;
+    cursor: pointer;
 }
 
 /* Form Inputs */
 input[type="text"],
 input[type="email"],
 input[type="number"],
+input[type="time"],
+input[type="date"],
 select {
     width: 100%;
     padding: 8px;
-    margin-top: 5px;
-    margin-bottom: 15px;
+    margin: 5px 0 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
@@ -159,10 +157,10 @@ select:focus {
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
-/* Buttons */
+/* Button Styles */
 button[type="submit"],
 button[type="button"] {
-    padding: 10px 10px;
+    padding: 10px;
     font-size: 14px;
     border: none;
     border-radius: 5px;
@@ -183,11 +181,32 @@ button[type="submit"] {
     background-color: #0056b3;
 }
 
+/* Remove button default styles */
+.removeBtn {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: inline-flex;
+}
+
+/* Style the icon */
+.removeBtn i {
+    margin-top: 2px;
+    font-size: 22px;
+    color: red;
+}
+
+/* Hover effect for the icon */
+.removeBtn:hover i {
+    color: darkred;
+}
+
+
 #cancelAdd,
 #cancelEdit,
 #cancelModal {
-    width: 100px;
-    background-color: lightgray;
+    width: 150px;
     color: #000;
 }
 
@@ -197,62 +216,70 @@ button[type="submit"] {
     background-color: darkgray;
 }
 
-/* Buttons */
+/* Add Modal Button */
 #openAddModal {
     background-color: #007bff;
-    border: none;
     color: white;
     padding: 10px 15px;
     font-size: 14px;
+    border: none;
     border-radius: 4px;
     cursor: pointer;
 }
 
 #openAddModal:hover {
     background-color: #0056b3;
-    /* Darker blue on hover */
 }
 
 /* Delete Button */
 .deleteBtn {
     margin: 0 5px;
     background-color: red;
-}
-
-.deleteBtn:hover {
-    background-color: darkred;
-}
-
-.close-btn {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 24px;
-    font-weight: bold;
-    color: #000;
-    cursor: pointer;
-}
-
-.deleteBtn {
     color: white;
-    background-color: red;
-    /* Red background */
-    padding: 5px 10px;
-    text-decoration: none;
     border-radius: 5px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
 }
 
 .deleteBtn:hover {
     background-color: darkred;
-    /* Darker red on hover */
 }
 
+/* Form Actions */
 .form-actions {
+    margin-top: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+/* Product Input Row */
+.product-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.product-row input {
+    flex: 1;
+}
+
+.removeRow {
+    color: red;
+    cursor: pointer;
+}
+
+.search-box {
+    padding: 8px;
+    margin-bottom: 12px;
+    width: 100%;
+    max-width: 300px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+th.sortable:hover {
+    cursor: pointer;
+    background-color: lightgray;
+
 }
 
 /* Responsive Media Queries */
@@ -305,4 +332,13 @@ button[type="submit"] {
     h1 {
         font-size: 20px;
     }
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.product-group {
+    display: flex;
+    gap: 10px;
 }

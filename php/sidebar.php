@@ -96,11 +96,20 @@
         <img src="../images/logo.png" alt="logo" class="logo-img">
         <span class="logo-text">S.A Camera</span>
     </div>
-    <div class="menu-item"><a href="../php/dashboard.php"><i class='bx bxs-dashboard'></i> <span class="menu-label">Dashboard</span></a></div>
-    <div class="menu-item"><a href="../php/staff.php"><i class='bx bxs-user'></i> <span class="menu-label">Staff</span></a></div>
-    <div class="menu-item"><a href="../php/supplier.php"><i class='bx bxs-truck'></i> <span class="menu-label">Supplier</span></a></div>
-    <div class="menu-item"><a href="../php/product.php"><i class='bx bxs-camera'></i><span class="menu-label">Product</span></a></div>
-    <div class="menu-item"><a href="../php/order.php"><i class='bx bxs-cart'></i><span class="menu-label">Order</span></a></div>
-    <div class="menu-item"><a href="../php/customer.php"><i class='bx bxs-group'></i> <span class="menu-label">Customer</span></a></div>
-    <div class="menu-item"><a href="../php/logout.php"><i class='bx bxs-log-out'></i> <span class="menu-label">Logout</span></a></div>
+    <div class="menu-item"><a href="../php/dashboard.php"><i class='bx bxs-dashboard'></i> <span
+                class="menu-label">Dashboard</span></a></div>
+    <div class="menu-item"><a href="../php/staff.php"><i class='bx bxs-user'></i> <span
+                class="menu-label">Staff</span></a></div>
+    <div class="menu-item"><a href="../php/supplier.php"><i class='bx bxs-truck'></i> <span
+                class="menu-label">Supplier</span></a></div>
+    <div class="menu-item"><a href="../php/product.php"><i class='bx bxs-camera'></i><span
+                class="menu-label">Product</span></a></div>
+    <div class="menu-item"><a href="../php/orders.php"><i class='bx bxs-cart'></i><span
+                class="menu-label">Order</span></a></div>
+    <div class="menu-item"><a href="../php/ordersProduct.php"><i class='bx bxs-cart'></i><span
+                class="menu-label">Sales</span></a></div>
+    <div class="menu-item"><a href="../php/customer.php"><i class='bx bxs-group'></i> <span
+                class="menu-label">Customer</span></a></div>
+    <div class="menu-item"><a href="../php/logout.php"><i class='bx bxs-log-out'></i> <span
+                class="menu-label">Logout</span></a></div>
 </div>

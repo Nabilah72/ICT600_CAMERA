@@ -16,7 +16,7 @@ $result = $connect->query($sql);
 <head>
     <meta charset="UTF-8">
     <title>Supplier Management</title>
-    <link rel="stylesheet" href="../css/crud.css">
+    <link rel="stylesheet" href="../css/crudd.css">
 </head>
 
 <body>
@@ -25,6 +25,7 @@ $result = $connect->query($sql);
 
         <div class="container">
             <h1>Supplier Management</h1>
+            <input type="text" id="searchInput" placeholder="Search staff..." class="search-box"><br>
 
             <!-- Show "Add New Supplier" button only if the user is an admin -->
             <?php if ($is_admin): ?>
@@ -36,20 +37,23 @@ $result = $connect->query($sql);
                 <table>
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Phone</th>
-                            <th>Email</th>
-                            <th>Address</th>
-                            <th>Status</th>
+                            <th class="sortable">No.</th>
+                            <th class="sortable">ID</th>
+                            <th class="sortable">Name</th>
+                            <th class="sortable">Phone</th>
+                            <th class="sortable">Email</th>
+                            <th class="sortable">Address</th>
+                            <th class="sortable">Status</th>
                             <?php if ($is_admin): ?>
                                 <th>Action</th>
                             <?php endif; ?>
                         </tr>
                     </thead>
                     <tbody>
+                        <?php $no = 1; ?>
                         <?php while ($row = $result->fetch_assoc()): ?>
                             <tr>
+                                <td><?= $no++ ?></td>
                                 <td><?= htmlspecialchars($row['suppID']) ?></td>
                                 <td><?= htmlspecialchars($row['suppName']) ?></td>
                                 <td><?= htmlspecialchars($row['suppPhone']) ?></td>
@@ -168,7 +172,7 @@ $result = $connect->query($sql);
         </div>
     </div>
 
-    <!-- JavaScript -->
+    <script src="../js/searchsort.js"></script>
     <script>
         const popupModal = document.getElementById('popupModal');
         const closeModalBtn = document.getElementById('closeModal');

@@ -13,7 +13,7 @@ $result = $connect->query($sql);
 <head>
     <meta charset="UTF-8">
     <title>Customer Management</title>
-    <link rel="stylesheet" href="../css/crud.css">
+    <link rel="stylesheet" href="../css/crudd.css">
 </head>
 
 <body>
@@ -21,21 +21,26 @@ $result = $connect->query($sql);
         <?php include 'sidebar.php'; ?>
         <div class="container">
             <h1>Customer Management</h1>
+            <input type="text" id="searchInput" placeholder="Search staff..." class="search-box"><br>
+
             <button id="openAddModal">Add New Customer</button><br><br>
             <div>
                 <table>
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Phone</th>
-                            <th>Email</th>
+                            <th class="sortable">No.</th>
+                            <th class="sortable">ID</th>
+                            <th class="sortable">Name</th>
+                            <th class="sortable">Phone</th>
+                            <th class="sortable">Email</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <?php $no = 1; ?>
                         <?php while ($row = $result->fetch_assoc()): ?>
                             <tr>
+                                <td><?= $no++ ?></td>
                                 <td><?= htmlspecialchars($row['custID']) ?></td>
                                 <td><?= htmlspecialchars($row['custName']) ?></td>
                                 <td><?= htmlspecialchars($row['custPhone']) ?></td>
@@ -105,6 +110,7 @@ $result = $connect->query($sql);
             </form>
         </div>
     </div>
+    <script src="../js/searchsort.js"></script>
 
     <script>
         const addModal = document.getElementById('addModal');

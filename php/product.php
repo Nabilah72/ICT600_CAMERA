@@ -15,7 +15,7 @@ $suppliers = $suppResult->fetch_all(MYSQLI_ASSOC);
 <head>
     <meta charset="UTF-8">
     <title>Product Management</title>
-    <link rel="stylesheet" href="../css/crud.css">
+    <link rel="stylesheet" href="../css/crudd.css">
 </head>
 
 <body>
@@ -24,26 +24,30 @@ $suppliers = $suppResult->fetch_all(MYSQLI_ASSOC);
         <?php include 'sidebar.php'; ?>
         <div class="container">
             <h1>Product Management</h1>
+            <input type="text" id="searchInput" placeholder="Search staff..." class="search-box"><br>
 
             <button id="openAddModal">Add New Product</button><br><br>
 
             <table>
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Supplier</th>
-                        <th>Shelf</th>
-                        <th>Category</th>
-                        <th>Brand</th>
-                        <th>Model</th>
-                        <th>Price (RM)</th>
-                        <th>Quantity</th>
+                        <th class="sortable">No.</th>
+                        <th class="sortable">ID</th>
+                        <th class="sortable">Supplier</th>
+                        <th class="sortable">Shelf</th>
+                        <th class="sortable">Category</th>
+                        <th class="sortable">Brand</th>
+                        <th class="sortable">Model</th>
+                        <th class="sortable">Price (RM)</th>
+                        <th class="sortable">Quantity</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <?php $no = 1; ?>
                     <?php while ($row = $result->fetch_assoc()): ?>
                         <tr>
+                            <td><?= $no++ ?></td>
                             <td><?= htmlspecialchars($row['productID']) ?></td>
                             <td><?= htmlspecialchars($row['suppName']) ?></td>
                             <td><?= htmlspecialchars($row['shelf']) ?></td>
@@ -152,7 +156,7 @@ $suppliers = $suppResult->fetch_all(MYSQLI_ASSOC);
             </form>
         </div>
     </div>
-
+    <script src="../js/searchsort.js"></script>
     <script>
         // Add modal handlers
         const addModal = document.getElementById('addModal');

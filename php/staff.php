@@ -21,7 +21,7 @@ if (!$result) {
 <head>
     <meta charset="UTF-8">
     <title>Staff Management</title>
-    <link rel="stylesheet" href="../css/crud.css">
+    <link rel="stylesheet" href="../css/crudd.css">
 </head>
 
 <body>
@@ -30,15 +30,17 @@ if (!$result) {
         <?php include 'sidebar.php'; ?>
         <div class="container">
             <h1>Staff Management</h1>
+            <input type="text" id="searchInput" placeholder="Search staff..." class="search-box">
             <table>
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Full Name</th>
-                        <th>Telephone</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Status</th>
+                        <th class="sortable">No.</th>
+                        <th class="sortable">ID</th>
+                        <th class="sortable">Full Name</th>
+                        <th class="sortable">Telephone</th>
+                        <th class="sortable">Email</th>
+                        <th class="sortable">Role</th>
+                        <th class="sortable">Status</th>
                         <?php if ($is_admin): ?>
                             <th>Action</th>
                         <?php endif; ?>
@@ -47,8 +49,10 @@ if (!$result) {
                 <tbody>
                     <?php
                     if ($result->num_rows > 0) {
+                        $no = 1;
                         while ($row = $result->fetch_assoc()) {
                             echo "<tr>";
+                            echo "<td>" . $no++ . "</td>";
                             echo "<td>" . htmlspecialchars($row['staffID']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['staffName']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['staffPhone']) . "</td>";
@@ -136,6 +140,7 @@ if (!$result) {
             </div>
         </div>
     <?php endif; ?>
+    <script src="../js/searchsort.js"></script>
 
     <script>
         const popupModal = document.getElementById('popupModal');
@@ -199,7 +204,6 @@ if (!$result) {
             if (e.target === popupModal) closeModal();
         });
     </script>
-
 </body>
 
 </html>
