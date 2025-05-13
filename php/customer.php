@@ -12,7 +12,7 @@ $result = $connect->query($sql);
 <head>
     <meta charset="UTF-8">
     <title>Customer Management</title>
-    <link rel="stylesheet" href="../css/crudd.css">
+    <link rel="stylesheet" href="../css/crud.css">
 </head>
 
 <body>

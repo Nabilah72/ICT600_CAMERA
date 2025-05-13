@@ -17,7 +17,7 @@ $products = $connect->query("SELECT productID, brand, model, price, qty FROM pro
 
 <head>
     <title>Manage Orders</title>
-    <link rel="stylesheet" href="../css/crudd.css">
+    <link rel="stylesheet" href="../css/crud.css">
 </head>
 
 <body>

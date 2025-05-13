@@ -31,7 +31,7 @@ if ($action === 'add') {
     // Get form data
     $name = titleCase($_POST['name']);
     if (!preg_match("/^[a-zA-Z\s]+$/", $name)) {
-        header("Location: customer.php?error=invalidName");
+        header("Location: supplier.php?error=invalidName");
         exit;
     }
     $phone = preg_replace("/\D/", "", subject: $_POST['phone']);
@@ -57,7 +57,7 @@ elseif ($action === 'edit') {
     if ($result && $result->num_rows > 0) {
         $name = titleCase($_POST['name']);
         if (!preg_match("/^[a-zA-Z\s]+$/", $name)) {
-            header("Location: customer.php?error=invalidName");
+            header("Location: supplier.php?error=invalidName");
             exit;
         }
         $phone = preg_replace("/\D/", "", subject: $_POST['phone']);

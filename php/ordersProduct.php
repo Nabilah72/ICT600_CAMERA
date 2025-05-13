@@ -17,7 +17,7 @@ $products = $connect->query("SELECT productID, brand, model FROM product");
 
 <head>
     <title>Manage Orders Products</title>
-    <link rel="stylesheet" href="../css/crudd.css">
+    <link rel="stylesheet" href="../css/crud.css">
 </head>
 
 <body>

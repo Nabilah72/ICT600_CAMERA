@@ -16,7 +16,6 @@ session_start(); // Start the session to access session variables like userRole
         border-right: 1px solid #eee;
         transition: width 0.3s ease;
         height: 100vh;
-        position: fixed;
         top: 0;
         left: 0;
         z-index: 1000;
@@ -119,7 +118,7 @@ session_start(); // Start the session to access session variables like userRole
 
     <!-- Top Menu -->
     <div class="menu-top">
-        <div class="menu-item"><a href="../html/homepage.html"><i class='bx bxs-dashboard'></i> <span
+        <div class="menu-item"><a href="../html/homepage.html"><i class='bx bxs-home'></i> <span
                     class="menu-label">Home</span></a></div>
 
         <!-- Conditional display based on userRole -->
@@ -134,13 +133,13 @@ session_start(); // Start the session to access session variables like userRole
                     class="menu-label">Product</span></a></div>
         <div class="menu-item"><a href="../php/orders.php"><i class='bx bxs-cart'></i><span
                     class="menu-label">Order</span></a></div>
-        <div class="menu-item"><a href="../php/ordersProduct.php"><i class='bx bxs-cart'></i><span
+        <div class="menu-item"><a href="../php/ordersProduct.php"><i class='bx bxs-chart line' ></i><span
                     class="menu-label">Sales</span></a></div>
         <div class="menu-item"><a href="../php/customer.php"><i class='bx bxs-group'></i> <span
                     class="menu-label">Customer</span></a></div>
     </div>
     <div class="menu-bottom">
-        <div class="menu-item"><a href="../php/logout.php"><i class='bx bxs-log-out'></i> <span
+        <div class="menu-item"><a href="../php/logout.php"><i class=' bx bxs-log-out'></i> <span
                     class="menu-label">Logout</span></a></div>
     </div>
 </div>

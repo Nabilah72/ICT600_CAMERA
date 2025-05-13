@@ -14,7 +14,7 @@ $suppliers = $suppResult->fetch_all(MYSQLI_ASSOC);
 <head>
     <meta charset="UTF-8">
     <title>Product Management</title>
-    <link rel="stylesheet" href="../css/crudd.css">
+    <link rel="stylesheet" href="../css/crud.css">
 </head>
 
 <body>
