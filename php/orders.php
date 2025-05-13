@@ -1,23 +1,23 @@
-<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
 <?php
 session_start();
 include "connection.php";
 
-$success = $_GET['success'] ?? '';
-$error = $_GET['error'] ?? '';
+$orders = $connect->query("
+    SELECT o.*, c.custName AS custName, s.staffName AS staffName
+    FROM orders o
+    JOIN customer c ON o.custID = c.custID
+    JOIN staff s ON o.staffID = s.staffID");
 
-$customers = $connect->query("SELECT * FROM customer");
-$staffs = $connect->query("SELECT * FROM staff");
-$products = $connect->query("SELECT * FROM product");
+$staffs = $connect->query("SELECT staffID, staffName FROM staff");
+$customers = $connect->query("SELECT custID, custName FROM customer");
+$products = $connect->query("SELECT productID, brand, model, price, qty FROM product");
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <title>Orders</title>
+    <title>Manage Orders</title>
     <link rel="stylesheet" href="../css/crudd.css">
 </head>
 
@@ -25,17 +25,11 @@ $products = $connect->query("SELECT * FROM product");
     <div class="wrapper">
         <?php include 'sidebar.php'; ?>
         <div class="container">
-            <h1>Orders</h1>
-            <input type="text" id="searchInput" placeholder="Search staff..." class="search-box"><br>
+            <h1>Order Management</h1>
 
-            <button id="openAddModal">Add Order</button><br><br>
+            <input type="text" id="searchInput" placeholder="Search orders..." class="search-box"><br>
 
-            <?php if ($success): ?>
-                <div class="message success"><?= ucfirst($success) ?>!</div>
-            <?php endif; ?>
-            <?php if ($error): ?>
-                <div class="message error"><?= ucfirst($error) ?>. Please try again.</div>
-            <?php endif; ?>
+            <button id="openAddModal">Add New Order</button><br><br>
 
             <table>
                 <thead>
@@ -46,123 +40,112 @@ $products = $connect->query("SELECT * FROM product");
                         <th class="sortable">Staff</th>
                         <th class="sortable">Date</th>
                         <th class="sortable">Time</th>
-                        <th class="sortable">Total</th>
+                        <th class="sortable">Amount (RM)</th>
                         <th class="sortable">Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    $query = "SELECT o.*, c.custName, s.staffName FROM orders o
-                    JOIN customer c ON o.custID = c.custID
-                    JOIN staff s ON o.staffID = s.staffID";
-                    $result = $connect->query($query);
-                    $no = 1;
-                    while ($row = $result->fetch_assoc()) {
-                        echo "<tr>
-                            <td>{$no}</td>
-                            <td>{$row['orderID']}</td>
-                            <td>{$row['custName']}</td>
-                            <td>{$row['staffName']}</td>
-                            <td>{$row['date']}</td>
-                            <td>{$row['time']}</td>
-                            <td>RM " . number_format($row['totalAmount'], 2) . "</td>
-                            <td>{$row['payStatus']}</td>
-                        </tr>";
-                        $no++;
-                    }
-                    ?>
+                    <?php $no = 1; ?>
+                    <?php while ($row = $orders->fetch_assoc()): ?>
+                        <tr>
+                            <td><?= $no++ ?></td>
+                            <td><?= $row['orderID'] ?></td>
+                            <td><?= $row['custName'] ?></td>
+                            <td><?= $row['staffName'] ?></td>
+                            <td><?= $row['date'] ?></td>
+                            <td><?= $row['time'] ?></td>
+                            <td><?= number_format($row['totalAmount'], 2) ?></td>
+                            <td><?= $row['payStatus'] ?></td>
+                        </tr>
+                    <?php endwhile; ?>
                 </tbody>
-
             </table>
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Add Order Modal -->
     <div class="popup-modal" id="addModal">
         <div class="popup-content">
             <span class="close-btn" id="closeAdd">&times;</span>
-            <h2>Add Order</h2>
-            <form action="orders_crud.php?action=add" method="POST" id="orderForm">
+            <h2>Add New Order</h2>
+            <form method="POST" action="orders_crud.php">
+                <input type="hidden" name="action" value="add_order">
+
                 <div class="form-group">
                     <label>Customer</label>
                     <select name="custID" required>
-                        <?php while ($cust = $customers->fetch_assoc()): ?>
-                            <option value="<?= $cust['custID'] ?>"><?= $cust['custName'] ?></option>
+                        <option value="">Select Customer</option>
+                        <?php while ($row = $customers->fetch_assoc()): ?>
+                            <option value="<?= $row['custID'] ?>"><?= $row['custName'] ?></option>
                         <?php endwhile; ?>
                     </select>
                 </div>
+
                 <div class="form-group">
                     <label>Staff</label>
                     <select name="staffID" required>
-                        <?php while ($staff = $staffs->fetch_assoc()): ?>
-                            <option value="<?= $staff['staffID'] ?>"><?= $staff['staffName'] ?></option>
+                        <option value="">Select Staff</option>
+                        <?php while ($row = $staffs->fetch_assoc()): ?>
+                            <option value="<?= $row['staffID'] ?>"><?= $row['staffName'] ?></option>
                         <?php endwhile; ?>
                     </select>
                 </div>
-                <div class="form-group">
-                    <label>Payment Status</label>
-                    <select name="payStatus" required>
-                        <option value="Paid">Paid</option>
-                        <option value="Unpaid">Unpaid</option>
-                    </select>
-                </div>
 
-                <div id="productContainer">
-                    <div class="product-group">
-                        <select name="productID[]" class="product-select" required>
-                            <?php
-                            $products->data_seek(0);
-                            while ($prod = $products->fetch_assoc()): ?>
-                                <option value="<?= $prod['productID'] ?>"><?= $prod['brand'] ?> - <?= $prod['model'] ?>
-                                </option>
-                            <?php endwhile; ?>
-                        </select>
-                        <input type="number" name="qty[]" placeholder="Quantity" min="1" required>
-                        <button type="button" class="removeBtn"><i class='bx bxs-x-circle'></i></button>
+                <div id="product-section">
+                    <label>Products</label>
+                    <div class="product-row row mb-2">
+                        <div class="col-md-4">
+                            <select name="productID[]" required>
+                                <option value="">Select Product</option>
+                                <?php
+                                $products->data_seek(0);
+                                while ($p = $products->fetch_assoc()):
+                                    ?>
+                                    <option value="<?= $p['productID'] ?>">
+                                        <?= $p['brand'] . ' ' . $p['model'] ?> (Stock: <?= $p['qty'] ?>)
+                                    </option>
+                                <?php endwhile; ?>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="number" name="qty[]" class="form-control" placeholder="Qty" min="1" required>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-danger remove-row">Remove</button>
+                        </div>
                     </div>
                 </div>
 
-                <button type="button" id="addProductBtn">+ Add Product</button>
-
+                <button type="button" class="btn btn-secondary mb-3" id="add-product">Add Another Product</button>
                 <div class="form-actions">
-                    <button type="submit" class="blueBtn">Submit Order</button>
+                    <button type="submit" class="blueBtn">Place Order</button>
                     <button type="button" id="cancelAdd">Cancel</button>
                 </div>
             </form>
         </div>
     </div>
+
     <script src="../js/searchsort.js"></script>
     <script>
         const addModal = document.getElementById('addModal');
         document.getElementById('openAddModal').onclick = () => addModal.classList.add('show');
         document.getElementById('closeAdd').onclick = () => addModal.classList.remove('show');
         document.getElementById('cancelAdd').onclick = () => addModal.classList.remove('show');
-        window.onclick = (e) => { if (e.target === addModal) addModal.classList.remove('show'); };
 
-        const container = document.getElementById('productContainer');
-        const addBtn = document.getElementById('addProductBtn');
-
-        addBtn.onclick = () => {
-            const clone = container.firstElementChild.cloneNode(true);
-            clone.querySelector('input').value = '';
-            clone.querySelector('select').selectedIndex = 0;
-            container.appendChild(clone);
-        };
-
-        container.addEventListener('click', function (e) {
-            if (e.target.classList.contains('bx') && container.children.length > 1) {
-                e.target.closest('.product-group').remove();
-            }
+        document.getElementById("add-product").addEventListener("click", function () {
+            const section = document.getElementById("product-section");
+            const row = section.querySelector(".product-row").cloneNode(true);
+            row.querySelector("select").value = "";
+            row.querySelector("input").value = "";
+            section.appendChild(row);
         });
 
-        // Client-side check for duplicates
-        document.getElementById('orderForm').addEventListener('submit', function (e) {
-            const selects = Array.from(document.querySelectorAll('.product-select'));
-            const values = selects.map(select => select.value);
-            const hasDuplicate = values.some((v, i) => values.indexOf(v) !== i);
-            if (hasDuplicate) {
-                e.preventDefault();
-                alert("Duplicate product selected. Please choose unique products.");
+        document.addEventListener("click", function (e) {
+            if (e.target.classList.contains("remove-row")) {
+                const row = e.target.closest(".product-row");
+                if (document.querySelectorAll(".product-row").length > 1) {
+                    row.remove();
+                }
             }
         });
     </script>
