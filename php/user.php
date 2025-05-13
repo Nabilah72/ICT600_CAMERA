@@ -1,9 +1,5 @@
 <?php
-session_start();
 include "connection.php";
-
-// Check if the user is an admin
-$is_admin = (isset($_SESSION['staffRole']) && $_SESSION['staffRole'] === 'Admin');
 
 // Fetch all user records from the database
 $sql = "SELECT * FROM users";
@@ -41,9 +37,7 @@ if (!$result) {
                         <th class="sortable">Email</th>
                         <th class="sortable">Role</th>
                         <th class="sortable">Status</th>
-                        <?php if ($is_admin): ?>
-                            <th>Action</th>
-                        <?php endif; ?>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -59,9 +53,7 @@ if (!$result) {
                             echo "<td>" . htmlspecialchars($row['userEmail']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['userRole']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['userStatus']) . "</td>";
-
-                            if ($is_admin) {
-                                echo "<td>
+                            echo "<td>
                                 <button 
                                     class='btn btn-warning editBtn'
                                     data-id='{$row['userID']}'
@@ -73,12 +65,10 @@ if (!$result) {
                                     Edit
                                 </button>
                             </td>";
-                            }
-
                             echo "</tr>";
                         }
                     } else {
-                        echo "<tr><td colspan='" . ($is_admin ? "7" : "6") . "' class='text-center'>No user records found.</td></tr>";
+                        echo "<tr><td colspan='8' class='text-center'>No user records found.</td></tr>";
                     }
                     ?>
                 </tbody>
@@ -86,60 +76,58 @@ if (!$result) {
         </div>
     </div>
 
-    <?php if ($is_admin): ?>
-        <!-- Reusable Modal -->
-        <div class="popup-modal" id="popupModal">
-            <div class="popup-content">
-                <span class="close-btn" id="closeModal">&times;</span>
-                <h2>Edit User</h2>
-                <form action="user_crud.php" method="POST">
-                    <input type="hidden" name="action" value="update">
-                    <input type="hidden" name="userID" id="editUserID">
+    <!-- Reusable Modal -->
+    <div class="popup-modal" id="popupModal">
+        <div class="popup-content">
+            <span class="close-btn" id="closeModal">&times;</span>
+            <h2>Edit User</h2>
+            <form action="user_crud.php" method="POST">
+                <input type="hidden" name="action" value="update">
+                <input type="hidden" name="userID" id="editUserID">
 
-                    <div class="form-group">
-                        <label>User ID</label>
-                        <input type="text" id="editUserIDDisplay" disabled>
-                    </div>
+                <div class="form-group">
+                    <label>User ID</label>
+                    <input type="text" id="editUserIDDisplay" disabled>
+                </div>
 
-                    <div class="form-group">
-                        <label>Full Name</label>
-                        <input type="text" name="userName" id="editUserName" required>
-                    </div>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" name="userName" id="editUserName" required>
+                </div>
 
-                    <div class="form-group">
-                        <label>Phone</label>
-                        <input type="text" name="userPhone" id="editUserPhone" required>
-                    </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="text" name="userPhone" id="editUserPhone" required>
+                </div>
 
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" name="userEmail" id="editUserEmail" required>
-                    </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="userEmail" id="editUserEmail" required>
+                </div>
 
-                    <div class="form-group">
-                        <label>Role</label>
-                        <select name="userRole" id="editUserRole" required>
-                            <option value="Staff">Staff</option>
-                            <option value="Admin">Admin</option>
-                        </select>
-                    </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <select name="userRole" id="editUserRole" required>
+                        <option value="Staff">Staff</option>
+                        <option value="Admin">Admin</option>
+                    </select>
+                </div>
 
-                    <div class="form-group">
-                        <label>Status</label>
-                        <select name="userStatus" id="editUserStatus" required>
-                            <option value="Active">Active</option>
-                            <option value="Inactive">Inactive</option>
-                        </select>
-                    </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select name="userStatus" id="editUserStatus" required>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
 
-                    <div class="form-actions">
-                        <button class="blueBtn" type="submit">Save Changes</button>
-                        <button type="button" id="cancelModal">Cancel</button>
-                    </div>
-                </form>
-            </div>
+                <div class="form-actions">
+                    <button class="blueBtn" type="submit">Save Changes</button>
+                    <button type="button" id="cancelModal">Cancel</button>
+                </div>
+            </form>
         </div>
-    <?php endif; ?>
+    </div>
     <script src="../js/searchsort.js"></script>
 
     <script>

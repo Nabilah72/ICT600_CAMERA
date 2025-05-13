@@ -1,5 +1,4 @@
 <?php
-session_start();
 include "connection.php";
 
 // Fetch data from orders_product table

@@ -1,5 +1,5 @@
 <?php
-session_start();
+session_start(); // Make sure this is at the top
 include "connection.php";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $row = $result->fetch_assoc();
         $_SESSION['staff_id'] = $user_id;  
         $_SESSION['staffName'] = $row['userName'];  
-        $_SESSION['staffRole'] = $row['userRole'];  
+        $_SESSION['userRole'] = $row['userRole'];  // Correct variable name to 'userRole'
         header("Location: ../html/homepage.html");
         exit();
     } else {
@@ -26,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->close();
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

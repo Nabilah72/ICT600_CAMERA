@@ -1,3 +1,7 @@
+<?php
+session_start(); // Start the session to access session variables like userRole
+?>
+
 <!-- Boxicons CDN -->
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
@@ -98,10 +102,15 @@
     </div>
     <div class="menu-item"><a href="../html/homepage.html"><i class='bx bxs-dashboard'></i> <span
                 class="menu-label">Home</span></a></div>
-    <div class="menu-item"><a href="../php/user.php"><i class='bx bxs-user'></i> <span
-                class="menu-label">User</span></a></div>
-    <div class="menu-item"><a href="../php/supplier.php"><i class='bx bxs-truck'></i> <span
-                class="menu-label">Supplier</span></a></div>
+
+    <!-- Conditional display based on userRole -->
+    <?php if ($_SESSION['userRole'] == 'Admin'): ?>
+        <div class="menu-item"><a href="../php/user.php"><i class='bx bxs-user'></i> <span
+                    class="menu-label">User</span></a></div>
+        <div class="menu-item"><a href="../php/supplier.php"><i class='bx bxs-truck'></i> <span
+                    class="menu-label">Supplier</span></a></div>
+    <?php endif; ?>
+
     <div class="menu-item"><a href="../php/product.php"><i class='bx bxs-camera'></i><span
                 class="menu-label">Product</span></a></div>
     <div class="menu-item"><a href="../php/orders.php"><i class='bx bxs-cart'></i><span

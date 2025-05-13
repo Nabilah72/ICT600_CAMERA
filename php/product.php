@@ -1,5 +1,4 @@
 <?php
-session_start();
 include "connection.php";
 
 $sql = "SELECT p.*, s.suppName FROM product p JOIN supplier s ON p.suppID = s.suppID ORDER BY p.productID ASC";

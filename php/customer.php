@@ -1,5 +1,4 @@
 <?php
-session_start();
 include "connection.php";
 
 // Fetch all customer records from the database

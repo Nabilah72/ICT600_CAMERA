@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 // If logout button is clicked
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
@@ -15,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
 
 <head>
     <title>Settings</title>
-    <link rel="stylesheet" href="../css/crud.css">
+    <link rel="stylesheet" href="../css/crudd.css">
 </head>
 
 <body>

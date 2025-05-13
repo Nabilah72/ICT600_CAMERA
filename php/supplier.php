@@ -1,9 +1,5 @@
 <?php
-session_start();
 include "connection.php";
-
-// Check if the current user is an admin
-$is_admin = (isset($_SESSION['staffRole']) && $_SESSION['staffRole'] === 'Admin');
 
 // Fetch all supplier records from the database
 $sql = "SELECT * FROM supplier";
@@ -27,11 +23,6 @@ $result = $connect->query($sql);
             <h1>Supplier Management</h1>
             <input type="text" id="searchInput" placeholder="Search staff..." class="search-box"><br>
 
-            <!-- Show "Add New Supplier" button only if the user is an admin -->
-            <?php if ($is_admin): ?>
-                <button id="openAddModal">Add New Supplier</button><br><br>
-            <?php endif; ?>
-
             <!-- Supplier Table -->
             <div>
                 <table>
@@ -44,9 +35,7 @@ $result = $connect->query($sql);
                             <th class="sortable">Email</th>
                             <th class="sortable">Address</th>
                             <th class="sortable">Status</th>
-                            <?php if ($is_admin): ?>
-                                <th>Action</th>
-                            <?php endif; ?>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -60,16 +49,15 @@ $result = $connect->query($sql);
                                 <td><?= htmlspecialchars($row['suppEmail']) ?></td>
                                 <td><?= htmlspecialchars($row['suppAddress']) ?></td>
                                 <td><?= htmlspecialchars($row['suppStatus']) ?></td>
-                                <?php if ($is_admin): ?>
-                                    <td>
-                                        <button class="editBtn" data-id="<?= $row['suppID'] ?>"
-                                            data-name="<?= $row['suppName'] ?>" data-phone="<?= $row['suppPhone'] ?>"
-                                            data-email="<?= $row['suppEmail'] ?>" data-address="<?= $row['suppAddress'] ?>"
-                                            data-status="<?= $row['suppStatus'] ?>">
-                                            Edit
-                                        </button>
-                                    </td>
-                                <?php endif; ?>
+                                <td>
+                                    <!-- Edit button for all users -->
+                                    <button class="editBtn" data-id="<?= $row['suppID'] ?>"
+                                        data-name="<?= $row['suppName'] ?>" data-phone="<?= $row['suppPhone'] ?>"
+                                        data-email="<?= $row['suppEmail'] ?>" data-address="<?= $row['suppAddress'] ?>"
+                                        data-status="<?= $row['suppStatus'] ?>">
+                                        Edit
+                                    </button>
+                                </td>
                             </tr>
                         <?php endwhile; ?>
                     </tbody>
