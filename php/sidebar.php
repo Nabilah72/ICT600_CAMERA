@@ -1,5 +1,6 @@
 <?php
-session_start(); // Start the session to access session variables like userRole
+session_start();
+
 ?>
 
 <!-- Boxicons CDN -->
@@ -22,7 +23,7 @@ session_start(); // Start the session to access session variables like userRole
     }
 
     .sidebar:hover {
-        width: 220px;
+        width: 190px;
         align-items: flex-start;
     }
 
@@ -66,7 +67,8 @@ session_start(); // Start the session to access session variables like userRole
     .menu-bottom {
         display: flex;
         flex-direction: column;
-        width: 100%;
+        width: 90%;
+        margin: 10px;
     }
 
     .menu-item {
@@ -84,10 +86,11 @@ session_start(); // Start the session to access session variables like userRole
         border-radius: 8px;
         transition: background 0.2s ease;
         white-space: nowrap;
+        justify-content: center;
     }
 
     .menu-item a i {
-        font-size: 20px;
+        font-size: 23px;
     }
 
     .menu-item a:hover,
@@ -100,13 +103,18 @@ session_start(); // Start the session to access session variables like userRole
         display: none;
     }
 
+
+    .menu-bottom {
+        margin-top: auto;
+    }
+
     .sidebar:hover .menu-label {
         display: inline;
     }
 
-    /* This ensures menu-bottom always sticks to bottom */
-    .menu-bottom {
-        margin-top: auto;
+    .sidebar:hover .menu-item a {
+        justify-content: flex-start;
+        width: 100%;
     }
 </style>
 
@@ -121,8 +129,7 @@ session_start(); // Start the session to access session variables like userRole
         <div class="menu-item"><a href="../html/homepage.html"><i class='bx bxs-home'></i> <span
                     class="menu-label">Home</span></a></div>
 
-        <!-- Conditional display based on userRole -->
-        <?php if ($_SESSION['userRole'] == 'Admin'): ?>
+        <?php if (isset($_SESSION['userRole']) && $_SESSION['userRole'] == 'Admin'): ?>
             <div class="menu-item"><a href="../php/user.php"><i class='bx bxs-user'></i> <span
                         class="menu-label">User</span></a></div>
             <div class="menu-item"><a href="../php/supplier.php"><i class='bx bxs-truck'></i> <span
@@ -133,13 +140,23 @@ session_start(); // Start the session to access session variables like userRole
                     class="menu-label">Product</span></a></div>
         <div class="menu-item"><a href="../php/orders.php"><i class='bx bxs-cart'></i><span
                     class="menu-label">Order</span></a></div>
-        <div class="menu-item"><a href="../php/ordersProduct.php"><i class='bx bxs-chart line' ></i><span
+        <div class="menu-item"><a href="../php/ordersProduct.php"><i class='bx bxs-chart line'></i><span
                     class="menu-label">Sales</span></a></div>
         <div class="menu-item"><a href="../php/customer.php"><i class='bx bxs-group'></i> <span
                     class="menu-label">Customer</span></a></div>
     </div>
     <div class="menu-bottom">
-        <div class="menu-item"><a href="../php/logout.php"><i class=' bx bxs-log-out'></i> <span
-                    class="menu-label">Logout</span></a></div>
+        <div class="menu-item">
+            <a href="../php/login.php" onclick="return confirmLogout();">
+                <i class='bx bxs-log-out'></i>
+                <span class="menu-label">Logout</span>
+            </a>
+        </div>
+
     </div>
 </div>
+<script>
+    function confirmLogout() {
+        return confirm("Are you sure you want to logout?");
+    }
+</script>
