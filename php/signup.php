@@ -3,22 +3,22 @@
 <?php
 include "connection.php";
 
-// Function to generate a unique staff ID starting with "STA"
-function generateStaffID($connect)
+// Function to generate a unique user ID starting with "USR"
+function generateUserID($connect)
 {
-    $sql = "SELECT staffID FROM staff WHERE staffID LIKE 'STA%' ORDER BY staffID DESC LIMIT 1";
+    $sql = "SELECT userID FROM users WHERE userID LIKE 'USR%' ORDER BY userID DESC LIMIT 1";
     $result = $connect->query($sql);
 
     if ($result && $result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        $lastID = $row['staffID'];
+        $lastID = $row['userID'];
         $number = (int) substr($lastID, 3);
         $newNumber = $number + 1;
     } else {
         $newNumber = 1;
     }
 
-    return 'STA' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
+    return 'USR' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
 }
 
 function titleCase($string)
@@ -32,20 +32,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $confirm_password = $_POST['confirm_password'];
     $tel = preg_replace("/\D/", "", $_POST['tel']);
     $email = strtolower(trim($_POST['email']));
-    $role = 'Staff';
+    $role = 'Staff'; // Change to User role
 
     if ($password !== $confirm_password) {
         $error_message = "Passwords do not match.";
     } else {
         // Check for duplicate email
-        $check_email_sql = "SELECT * FROM staff WHERE staffEmail = ?";
+        $check_email_sql = "SELECT * FROM users WHERE userEmail = ?"; // Change staffEmail to userEmail
         $stmt = $connect->prepare($check_email_sql);
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result_email = $stmt->get_result();
 
         // Check for duplicate phone number
-        $check_phone_sql = "SELECT * FROM staff WHERE staffPhone = ?";
+        $check_phone_sql = "SELECT * FROM users WHERE userPhone = ?"; // Change staffPhone to userPhone
         $stmt_phone = $connect->prepare($check_phone_sql);
         $stmt_phone->bind_param("s", $tel);
         $stmt_phone->execute();
@@ -56,15 +56,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } elseif ($result_phone->num_rows > 0) {
             $error_message = "Phone number already exists.";
         } else {
-            $staff_id = generateStaffID($connect);
+            $user_id = generateUserID($connect); // Changed to generateUserID
 
-            $insert_sql = "INSERT INTO staff (staffID, staffName, staffPassword, staffPhone, staffEmail, staffRole) 
-                           VALUES (?, ?, ?, ?, ?, ?)";
+            $insert_sql = "INSERT INTO users (userID, userName, userPassword, userPhone, userEmail, userRole) 
+                           VALUES (?, ?, ?, ?, ?, ?)"; // Change staff to user
             $stmt_insert = $connect->prepare($insert_sql);
-            $stmt_insert->bind_param("ssssss", $staff_id, $name, $password, $tel, $email, $role);
+            $stmt_insert->bind_param("ssssss", $user_id, $name, $password, $tel, $email, $role); // Change staff to user
 
             if ($stmt_insert->execute()) {
-                $success_message = "Registration successful. Your Staff ID is $staff_id. <a href='login.php'>Login</a>.";
+                $success_message = "Registration successful. Your User ID is $user_id. <a href='login.php'>Login</a>.";
             } else {
                 $error_message = "Error during registration. Please try again.";
             }

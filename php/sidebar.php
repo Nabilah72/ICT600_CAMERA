@@ -96,10 +96,10 @@
         <img src="../images/logo.png" alt="logo" class="logo-img">
         <span class="logo-text">S.A Camera</span>
     </div>
-    <div class="menu-item"><a href="../php/dashboard.php"><i class='bx bxs-dashboard'></i> <span
-                class="menu-label">Dashboard</span></a></div>
-    <div class="menu-item"><a href="../php/staff.php"><i class='bx bxs-user'></i> <span
-                class="menu-label">Staff</span></a></div>
+    <div class="menu-item"><a href="../html/homepage.html"><i class='bx bxs-dashboard'></i> <span
+                class="menu-label">Home</span></a></div>
+    <div class="menu-item"><a href="../php/user.php"><i class='bx bxs-user'></i> <span
+                class="menu-label">User</span></a></div>
     <div class="menu-item"><a href="../php/supplier.php"><i class='bx bxs-truck'></i> <span
                 class="menu-label">Supplier</span></a></div>
     <div class="menu-item"><a href="../php/product.php"><i class='bx bxs-camera'></i><span

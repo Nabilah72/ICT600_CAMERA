@@ -6,24 +6,24 @@ include "connection.php"; // Include the database connection
 // Check if the form was submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Get input values from the form
-    $staff_id = $_POST['staff_id'];
+    $user_id = $_POST['user_id']; // Changed staff_id to user_id
     $new_password = $_POST['new_password'];
     $confirm_password = $_POST['confirm_password'];
 
     // Check if both password fields match
     if ($new_password === $confirm_password) {
-        // Prepare SQL query to check if the Staff ID exists
-        $sql = "SELECT * FROM staff WHERE staffID = ?";
+        // Prepare SQL query to check if the User ID exists
+        $sql = "SELECT * FROM users WHERE userID = ?"; // Changed staff to user
         $stmt = $connect->prepare($sql);
-        $stmt->bind_param("s", $staff_id); // Bind the staff ID
+        $stmt->bind_param("s", $user_id); // Bind the user ID
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
-            // Staff ID exists, update the password
-            $update_sql = "UPDATE staff SET staffPassword = ? WHERE staffID = ?";
+            // User ID exists, update the password
+            $update_sql = "UPDATE users SET userPassword = ? WHERE userID = ?"; // Changed staffPassword to userPassword
             $update_stmt = $connect->prepare($update_sql);
-            $update_stmt->bind_param("ss", $new_password, $staff_id); // Bind the new password and staff ID
+            $update_stmt->bind_param("ss", $new_password, $user_id); // Bind the new password and user ID
             $update_stmt->execute();
 
             // Check if the update was successful
@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $update_stmt->close(); // Close the update statement
         } else {
-            $error_message = "Staff ID not found.";
+            $error_message = "User ID not found."; // Changed Staff ID to User ID
         }
 
         $stmt->close(); // Close the check statement
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <!-- Forgot Password Form -->
         <form action="forgot_pass.php" method="POST">
             <div class="input-group">
-                <input type="text" id="staff_id" name="staff_id" placeholder="Staff ID" required>
+                <input type="text" id="user_id" name="user_id" placeholder="User ID" required> <!-- Changed staff_id to user_id -->
                 <span class="icon"><i class='bx bxs-user'></i></span>
             </div>
             <div class="input-group">

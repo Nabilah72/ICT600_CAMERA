@@ -3,12 +3,12 @@ session_start();
 include "connection.php";
 
 $orders = $connect->query("
-    SELECT o.*, c.custName AS custName, s.staffName AS staffName
+    SELECT o.*, c.custName AS custName, u.userName AS userName
     FROM orders o
     JOIN customer c ON o.custID = c.custID
-    JOIN staff s ON o.staffID = s.staffID");
+    JOIN users u ON o.userID = u.userID");
 
-$staffs = $connect->query("SELECT staffID, staffName FROM staff");
+$users = $connect->query("SELECT userID, userName FROM users");
 $customers = $connect->query("SELECT custID, custName FROM customer");
 $products = $connect->query("SELECT productID, brand, model, price, qty FROM product");
 ?>
@@ -37,7 +37,7 @@ $products = $connect->query("SELECT productID, brand, model, price, qty FROM pro
                         <th class="sortable">No.</th>
                         <th class="sortable">Order ID</th>
                         <th class="sortable">Customer</th>
-                        <th class="sortable">Staff</th>
+                        <th class="sortable">User</th>
                         <th class="sortable">Date</th>
                         <th class="sortable">Time</th>
                         <th class="sortable">Amount (RM)</th>
@@ -51,7 +51,7 @@ $products = $connect->query("SELECT productID, brand, model, price, qty FROM pro
                             <td><?= $no++ ?></td>
                             <td><?= $row['orderID'] ?></td>
                             <td><?= $row['custName'] ?></td>
-                            <td><?= $row['staffName'] ?></td>
+                            <td><?= $row['userName'] ?></td>
                             <td><?= $row['date'] ?></td>
                             <td><?= $row['time'] ?></td>
                             <td><?= number_format($row['totalAmount'], 2) ?></td>
@@ -82,11 +82,11 @@ $products = $connect->query("SELECT productID, brand, model, price, qty FROM pro
                 </div>
 
                 <div class="form-group">
-                    <label>Staff</label>
-                    <select name="staffID" required>
-                        <option value="">Select Staff</option>
-                        <?php while ($row = $staffs->fetch_assoc()): ?>
-                            <option value="<?= $row['staffID'] ?>"><?= $row['staffName'] ?></option>
+                    <label>User</label>
+                    <select name="userID" required>
+                        <option value="">Select User</option>
+                        <?php while ($row = $users->fetch_assoc()): ?>
+                            <option value="<?= $row['userID'] ?>"><?= $row['userName'] ?></option>
                         <?php endwhile; ?>
                     </select>
                 </div>

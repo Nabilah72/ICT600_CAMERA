@@ -1,28 +1,26 @@
-<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-
 <?php
 session_start();
 include "connection.php";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $staff_id = $_POST['staff_id'];
+    $user_id = $_POST['staff_id'];  
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM staff WHERE staffID = ? AND staffPassword = ?";
+    $sql = "SELECT * FROM users WHERE userID = ? AND userPassword = ?"; 
     $stmt = $connect->prepare($sql);
-    $stmt->bind_param("ss", $staff_id, $password);
+    $stmt->bind_param("ss", $user_id, $password);  
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows === 1) {
         $row = $result->fetch_assoc();
-        $_SESSION['staff_id'] = $staff_id;
-        $_SESSION['staffName'] = $row['staffName'];
-        $_SESSION['staffRole'] = $row['staffRole'];
+        $_SESSION['staff_id'] = $user_id;  
+        $_SESSION['staffName'] = $row['userName'];  
+        $_SESSION['staffRole'] = $row['userRole'];  
         header("Location: ../html/homepage.html");
         exit();
     } else {
-        $error_message = "Invalid Staff ID or Password.";
+        $error_message = "Invalid User ID or Password.";  
     }
 
     $stmt->close();
@@ -46,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         <form action="login.php" method="POST">
             <div class="input-group">
-                <input type="text" name="staff_id" placeholder="Staff ID" required>
+                <input type="text" name="staff_id" placeholder="User ID" required>  <!-- Change Staff ID to User ID -->
                 <span class="icon"><i class='bx bxs-user'></i></span>
             </div>
 

@@ -5,7 +5,7 @@ include "connection.php";
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'add_order') {
     date_default_timezone_set('Asia/Kuala_Lumpur');
     $custID = $_POST['custID'];
-    $staffID = $_POST['staffID'];
+    $staffID = $_POST['userID'];
     $date = date('Y-m-d');
     $time = date('H:i:s');
     $payStatus = 'Unpaid';
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'add_order') {
     try {
         // 1. Insert into orders (auto-incremented orderID will be used)
         $insertOrder = $connect->prepare("
-            INSERT INTO orders (custID, staffID, date, time, totalAmount, payStatus)
+            INSERT INTO orders (custID, userID, date, time, totalAmount, payStatus)
             VALUES (?, ?, ?, ?, 0, ?)
         ");
         $insertOrder->bind_param("sssss", $custID, $staffID, $date, $time, $payStatus);

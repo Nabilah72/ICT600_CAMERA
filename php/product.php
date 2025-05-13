@@ -97,7 +97,6 @@ $suppliers = $suppResult->fetch_all(MYSQLI_ASSOC);
                     <select name="category" required>
                         <option value="Camera">Camera</option>
                         <option value="Lens">Lens</option>
-                        <option value="Accessory">Accessory</option>
                     </select>
                 </div>
                 <div class="form-group"><label>Brand</label><input type="text" name="brand" required></div>
@@ -138,7 +137,6 @@ $suppliers = $suppResult->fetch_all(MYSQLI_ASSOC);
                     <select name="category" id="editCategory" required>
                         <option value="Camera">Camera</option>
                         <option value="Lens">Lens</option>
-                        <option value="Accessory">Accessory</option>
                     </select>
                 </div>
                 <div class="form-group"><label>Brand</label><input type="text" name="brand" id="editBrand" required>
