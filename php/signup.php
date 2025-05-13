@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <head>
     <title>Sign Up</title>
-    <link rel="stylesheet" href="../css/forms.css">
+    <link rel="stylesheet" href="../css/form.css">
 </head>
 
 <body>

@@ -20,7 +20,7 @@ $result = $connect->query($sql);
         <?php include 'sidebar.php'; ?>
         <div class="container">
             <h1>Customer Management</h1>
-            <input type="text" id="searchInput" placeholder="Search staff..." class="search-box"><br>
+            <input type="text" id="searchInput" placeholder="Search customer..." class="search-box"><br>
 
             <button id="openAddModal">Add New Customer</button><br><br>
             <div>

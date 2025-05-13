@@ -21,7 +21,7 @@ $result = $connect->query($sql);
 
         <div class="container">
             <h1>Supplier Management</h1>
-            <input type="text" id="searchInput" placeholder="Search staff..." class="search-box"><br>
+            <input type="text" id="searchInput" placeholder="Search supplier..." class="search-box"><br>
 
             <!-- Supplier Table -->
             <div>

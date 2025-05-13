@@ -23,7 +23,7 @@ $suppliers = $suppResult->fetch_all(MYSQLI_ASSOC);
         <?php include 'sidebar.php'; ?>
         <div class="container">
             <h1>Product Management</h1>
-            <input type="text" id="searchInput" placeholder="Search staff..." class="search-box"><br>
+            <input type="text" id="searchInput" placeholder="Search product..." class="search-box"><br>
 
             <button id="openAddModal">Add New Product</button><br><br>
 

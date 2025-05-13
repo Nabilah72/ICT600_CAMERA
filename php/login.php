@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" href="../css/forms.css">
+    <link rel="stylesheet" href="../css/form.css">
 </head>
 
 <body>

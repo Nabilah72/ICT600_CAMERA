@@ -8,14 +8,18 @@ session_start(); // Start the session to access session variables like userRole
 <style>
     .sidebar {
         width: 80px;
-        background-color: #ffffff;
-        color: #333;
+        background-color: #fff;
         padding: 20px 10px;
         display: flex;
         flex-direction: column;
         align-items: center;
         border-right: 1px solid #eee;
         transition: width 0.3s ease;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1000;
     }
 
     .sidebar:hover {
@@ -23,7 +27,7 @@ session_start(); // Start the session to access session variables like userRole
         align-items: flex-start;
     }
 
-    .sidebar .logo-container {
+    .logo-container {
         display: flex;
         text-align: center;
         align-items: center;
@@ -59,12 +63,19 @@ session_start(); // Start the session to access session variables like userRole
         display: inline;
     }
 
-    .sidebar .menu-item {
+    .menu-top,
+    .menu-bottom {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .menu-item {
         width: 100%;
         margin: 10px 0;
     }
 
-    .sidebar .menu-item a {
+    .menu-item a {
         display: flex;
         align-items: center;
         gap: 10px;
@@ -76,12 +87,12 @@ session_start(); // Start the session to access session variables like userRole
         white-space: nowrap;
     }
 
-    .sidebar .menu-item a i {
+    .menu-item a i {
         font-size: 20px;
     }
 
-    .sidebar .menu-item a:hover,
-    .sidebar .menu-item a.active {
+    .menu-item a:hover,
+    .menu-item a.active {
         background-color: #f0f0f0;
         color: #007bff;
     }
@@ -93,6 +104,11 @@ session_start(); // Start the session to access session variables like userRole
     .sidebar:hover .menu-label {
         display: inline;
     }
+
+    /* This ensures menu-bottom always sticks to bottom */
+    .menu-bottom {
+        margin-top: auto;
+    }
 </style>
 
 <div class="sidebar">
@@ -100,25 +116,31 @@ session_start(); // Start the session to access session variables like userRole
         <img src="../images/logo.png" alt="logo" class="logo-img">
         <span class="logo-text">S.A Camera</span>
     </div>
-    <div class="menu-item"><a href="../html/homepage.html"><i class='bx bxs-dashboard'></i> <span
-                class="menu-label">Home</span></a></div>
 
-    <!-- Conditional display based on userRole -->
-    <?php if ($_SESSION['userRole'] == 'Admin'): ?>
-        <div class="menu-item"><a href="../php/user.php"><i class='bx bxs-user'></i> <span
-                    class="menu-label">User</span></a></div>
-        <div class="menu-item"><a href="../php/supplier.php"><i class='bx bxs-truck'></i> <span
-                    class="menu-label">Supplier</span></a></div>
-    <?php endif; ?>
+    <!-- Top Menu -->
+    <div class="menu-top">
+        <div class="menu-item"><a href="../html/homepage.html"><i class='bx bxs-dashboard'></i> <span
+                    class="menu-label">Home</span></a></div>
 
-    <div class="menu-item"><a href="../php/product.php"><i class='bx bxs-camera'></i><span
-                class="menu-label">Product</span></a></div>
-    <div class="menu-item"><a href="../php/orders.php"><i class='bx bxs-cart'></i><span
-                class="menu-label">Order</span></a></div>
-    <div class="menu-item"><a href="../php/ordersProduct.php"><i class='bx bxs-cart'></i><span
-                class="menu-label">Sales</span></a></div>
-    <div class="menu-item"><a href="../php/customer.php"><i class='bx bxs-group'></i> <span
-                class="menu-label">Customer</span></a></div>
-    <div class="menu-item"><a href="../php/logout.php"><i class='bx bxs-log-out'></i> <span
-                class="menu-label">Logout</span></a></div>
+        <!-- Conditional display based on userRole -->
+        <?php if ($_SESSION['userRole'] == 'Admin'): ?>
+            <div class="menu-item"><a href="../php/user.php"><i class='bx bxs-user'></i> <span
+                        class="menu-label">User</span></a></div>
+            <div class="menu-item"><a href="../php/supplier.php"><i class='bx bxs-truck'></i> <span
+                        class="menu-label">Supplier</span></a></div>
+        <?php endif; ?>
+
+        <div class="menu-item"><a href="../php/product.php"><i class='bx bxs-camera'></i><span
+                    class="menu-label">Product</span></a></div>
+        <div class="menu-item"><a href="../php/orders.php"><i class='bx bxs-cart'></i><span
+                    class="menu-label">Order</span></a></div>
+        <div class="menu-item"><a href="../php/ordersProduct.php"><i class='bx bxs-cart'></i><span
+                    class="menu-label">Sales</span></a></div>
+        <div class="menu-item"><a href="../php/customer.php"><i class='bx bxs-group'></i> <span
+                    class="menu-label">Customer</span></a></div>
+    </div>
+    <div class="menu-bottom">
+        <div class="menu-item"><a href="../php/logout.php"><i class='bx bxs-log-out'></i> <span
+                    class="menu-label">Logout</span></a></div>
+    </div>
 </div>
