@@ -17,7 +17,7 @@ $products = $connect->query("SELECT productID, brand, model FROM product");
 
 <head>
     <title>Manage Orders Products</title>
-    <link rel="stylesheet" href="../css/crud.css">
+    <link rel="stylesheet" href="../css/cruds.css">
 </head>
 
 <body>
@@ -27,32 +27,33 @@ $products = $connect->query("SELECT productID, brand, model FROM product");
             <h1>Order Products Management</h1>
 
             <input type="text" id="searchInput" placeholder="Search order products..." class="search-box"><br>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th class="sortable">No.</th>
-                        <th class="sortable">Order ID</th>
-                        <th class="sortable">Product</th>
-                        <th class="sortable">Unit Price (RM)</th>
-                        <th class="sortable">Quantity</th>
-                        <th class="sortable">Subtotal (RM)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $no = 1; ?>
-                    <?php while ($row = $ordersProduct->fetch_assoc()): ?>
+            <div class="table-container">
+                <table>
+                    <thead>
                         <tr>
-                            <td><?= $no++ ?></td>
-                            <td><?= $row['orderID'] ?></td>
-                            <td><?= $row['brand'] . ' ' . $row['model'] ?></td>
-                            <td><?= number_format($row['unitPrice'], 2) ?></td>
-                            <td><?= $row['qty'] ?></td>
-                            <td><?= number_format($row['subtotal'], 2) ?></td>
+                            <th class="sortable">No.</th>
+                            <th class="sortable">Order ID</th>
+                            <th class="sortable">Product</th>
+                            <th class="sortable">Unit Price (RM)</th>
+                            <th class="sortable">Quantity</th>
+                            <th class="sortable">Subtotal (RM)</th>
                         </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php $no = 1; ?>
+                        <?php while ($row = $ordersProduct->fetch_assoc()): ?>
+                            <tr>
+                                <td><?= $no++ ?></td>
+                                <td><?= $row['orderID'] ?></td>
+                                <td><?= $row['brand'] . ' ' . $row['model'] ?></td>
+                                <td><?= number_format($row['unitPrice'], 2) ?></td>
+                                <td><?= $row['qty'] ?></td>
+                                <td><?= number_format($row['subtotal'], 2) ?></td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 

@@ -17,7 +17,7 @@ if (!$result) {
 <head>
     <meta charset="UTF-8">
     <title>User Management</title>
-    <link rel="stylesheet" href="../css/crud.css">
+    <link rel="stylesheet" href="../css/cruds.css">
 </head>
 
 <body>
@@ -27,33 +27,34 @@ if (!$result) {
         <div class="container">
             <h1>User Management</h1>
             <input type="text" id="searchInput" placeholder="Search User..." class="search-box">
-            <table>
-                <thead>
-                    <tr>
-                        <th class="sortable">No.</th>
-                        <th class="sortable">ID</th>
-                        <th class="sortable">Full Name</th>
-                        <th class="sortable">Telephone</th>
-                        <th class="sortable">Email</th>
-                        <th class="sortable">Role</th>
-                        <th class="sortable">Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    if ($result->num_rows > 0) {
-                        $no = 1;
-                        while ($row = $result->fetch_assoc()) {
-                            echo "<tr>";
-                            echo "<td>" . $no++ . "</td>";
-                            echo "<td>" . htmlspecialchars($row['userID']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['userName']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['userPhone']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['userEmail']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['userRole']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['userStatus']) . "</td>";
-                            echo "<td>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="sortable">No.</th>
+                            <th class="sortable">ID</th>
+                            <th class="sortable">Full Name</th>
+                            <th class="sortable">Telephone</th>
+                            <th class="sortable">Email</th>
+                            <th class="sortable">Role</th>
+                            <th class="sortable">Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        if ($result->num_rows > 0) {
+                            $no = 1;
+                            while ($row = $result->fetch_assoc()) {
+                                echo "<tr>";
+                                echo "<td>" . $no++ . "</td>";
+                                echo "<td>" . htmlspecialchars($row['userID']) . "</td>";
+                                echo "<td>" . htmlspecialchars($row['userName']) . "</td>";
+                                echo "<td>" . htmlspecialchars($row['userPhone']) . "</td>";
+                                echo "<td>" . htmlspecialchars($row['userEmail']) . "</td>";
+                                echo "<td>" . htmlspecialchars($row['userRole']) . "</td>";
+                                echo "<td>" . htmlspecialchars($row['userStatus']) . "</td>";
+                                echo "<td>
                                 <button 
                                     class='btn btn-warning editBtn'
                                     data-id='{$row['userID']}'
@@ -65,14 +66,15 @@ if (!$result) {
                                     Edit
                                 </button>
                             </td>";
-                            echo "</tr>";
+                                echo "</tr>";
+                            }
+                        } else {
+                            echo "<tr><td colspan='8' class='text-center'>No user records found.</td></tr>";
                         }
-                    } else {
-                        echo "<tr><td colspan='8' class='text-center'>No user records found.</td></tr>";
-                    }
-                    ?>
-                </tbody>
-            </table>
+                        ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -80,7 +82,7 @@ if (!$result) {
     <div class="popup-modal" id="popupModal">
         <div class="popup-content">
             <span class="close-btn" id="closeModal">&times;</span>
-            <h2>Edit User</h2>
+            <h2>Edit User Details</h2>
             <form action="user_crud.php" method="POST">
                 <input type="hidden" name="action" value="update">
                 <input type="hidden" name="userID" id="editUserID">

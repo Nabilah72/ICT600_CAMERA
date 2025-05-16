@@ -12,7 +12,8 @@ $result = $connect->query($sql);
 <head>
     <meta charset="UTF-8">
     <title>Customer Management</title>
-    <link rel="stylesheet" href="../css/crud.css">
+    <?php include 'alert.php'; ?>
+    <link rel="stylesheet" href="../css/cruds.css">
 </head>
 
 <body>
@@ -22,8 +23,8 @@ $result = $connect->query($sql);
             <h1>Customer Management</h1>
             <input type="text" id="searchInput" placeholder="Search customer..." class="search-box"><br>
 
-            <button id="openAddModal">Add New Customer</button><br><br>
-            <div>
+            <button id="openAddModal">Add Customer</button><br><br>
+            <div class="table-container">
                 <table>
                     <thead>
                         <tr>
@@ -73,9 +74,15 @@ $result = $connect->query($sql);
             <h2>Add Customer</h2>
             <form action="customer_crud.php" method="POST">
                 <input type="hidden" name="action" value="add">
-                <div class="form-group"><label>Name</label><input type="text" name="name" required></div>
-                <div class="form-group"><label>Phone</label><input type="text" name="phone" required></div>
-                <div class="form-group"><label>Email</label><input type="email" name="email" required></div>
+                <div class="form-group"> <label>Name <span class="required">*</span></label>
+                    <input type="text" name="name" required>
+                </div>
+                <div class="form-group"> <label>Phone <span class="required">*</span></label>
+                    <input type="text" name="phone" required>
+                </div>
+                <div class="form-group"> <label>Email <span class="required">*</span></label>
+                    <input type="email" name="email" required>
+                </div>
                 <div class="form-actions">
                     <button type="submit" class="blueBtn">Add Customer</button>
                     <button type="button" id="cancelAdd">Cancel</button>
@@ -88,7 +95,7 @@ $result = $connect->query($sql);
     <div class="popup-modal" id="editModal">
         <div class="popup-content">
             <span class="close-btn" id="closeEdit">&times;</span>
-            <h2>Edit Customer</h2>
+            <h2>Edit Customer Details</h2>
             <form action="customer_crud.php" method="POST">
                 <input type="hidden" name="action" value="edit">
                 <input type="hidden" name="id" id="editCustomerID">

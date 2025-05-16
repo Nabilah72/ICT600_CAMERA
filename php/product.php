@@ -14,7 +14,7 @@ $suppliers = $suppResult->fetch_all(MYSQLI_ASSOC);
 <head>
     <meta charset="UTF-8">
     <title>Product Management</title>
-    <link rel="stylesheet" href="../css/crud.css">
+    <link rel="stylesheet" href="../css/cruds.css">
 </head>
 
 <body>
@@ -25,53 +25,54 @@ $suppliers = $suppResult->fetch_all(MYSQLI_ASSOC);
             <h1>Product Management</h1>
             <input type="text" id="searchInput" placeholder="Search product..." class="search-box"><br>
 
-            <button id="openAddModal">Add New Product</button><br><br>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th class="sortable">No.</th>
-                        <th class="sortable">ID</th>
-                        <th class="sortable">Supplier</th>
-                        <th class="sortable">Shelf</th>
-                        <th class="sortable">Category</th>
-                        <th class="sortable">Brand</th>
-                        <th class="sortable">Model</th>
-                        <th class="sortable">Price (RM)</th>
-                        <th class="sortable">Quantity</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $no = 1; ?>
-                    <?php while ($row = $result->fetch_assoc()): ?>
+            <button id="openAddModal">Add Product</button><br><br>
+            <div class="table-container">
+                <table>
+                    <thead>
                         <tr>
-                            <td><?= $no++ ?></td>
-                            <td><?= htmlspecialchars($row['productID']) ?></td>
-                            <td><?= htmlspecialchars($row['suppName']) ?></td>
-                            <td><?= htmlspecialchars($row['shelf']) ?></td>
-                            <td><?= htmlspecialchars($row['category']) ?></td>
-                            <td><?= htmlspecialchars($row['brand']) ?></td>
-                            <td><?= htmlspecialchars($row['model']) ?></td>
-                            <td><?= htmlspecialchars($row['price']) ?></td>
-                            <td><?= htmlspecialchars($row['qty']) ?></td>
-                            <td>
-                                <button class="editBtn" data-id="<?= $row['productID'] ?>"
-                                    data-suppid="<?= $row['suppID'] ?>" data-shelf="<?= $row['shelf'] ?>"
-                                    data-category="<?= $row['category'] ?>" data-brand="<?= $row['brand'] ?>"
-                                    data-model="<?= $row['model'] ?>" data-price="<?= $row['price'] ?>"
-                                    data-qty="<?= $row['qty'] ?>">Edit</button>
-                                <form action="product_crud.php" method="POST" style="display:inline;">
-                                    <input type="hidden" name="action" value="delete">
-                                    <input type="hidden" name="id" value="<?= $row['productID'] ?>">
-                                    <button type="submit" class="deleteBtn"
-                                        onclick="return confirm('Delete this product?');">Delete</button>
-                                </form>
-                            </td>
+                            <th class="sortable">No.</th>
+                            <th class="sortable">ID</th>
+                            <th class="sortable">Supplier</th>
+                            <th class="sortable">Shelf</th>
+                            <th class="sortable">Category</th>
+                            <th class="sortable">Brand</th>
+                            <th class="sortable">Model</th>
+                            <th class="sortable">Price (RM)</th>
+                            <th class="sortable">Quantity</th>
+                            <th>Action</th>
                         </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php $no = 1; ?>
+                        <?php while ($row = $result->fetch_assoc()): ?>
+                            <tr>
+                                <td><?= $no++ ?></td>
+                                <td><?= htmlspecialchars($row['productID']) ?></td>
+                                <td><?= htmlspecialchars($row['suppName']) ?></td>
+                                <td><?= htmlspecialchars($row['shelf']) ?></td>
+                                <td><?= htmlspecialchars($row['category']) ?></td>
+                                <td><?= htmlspecialchars($row['brand']) ?></td>
+                                <td><?= htmlspecialchars($row['model']) ?></td>
+                                <td><?= htmlspecialchars($row['price']) ?></td>
+                                <td><?= htmlspecialchars($row['qty']) ?></td>
+                                <td>
+                                    <button class="editBtn" data-id="<?= $row['productID'] ?>"
+                                        data-suppid="<?= $row['suppID'] ?>" data-shelf="<?= $row['shelf'] ?>"
+                                        data-category="<?= $row['category'] ?>" data-brand="<?= $row['brand'] ?>"
+                                        data-model="<?= $row['model'] ?>" data-price="<?= $row['price'] ?>"
+                                        data-qty="<?= $row['qty'] ?>">Edit</button>
+                                    <form action="product_crud.php" method="POST" style="display:inline;">
+                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="id" value="<?= $row['productID'] ?>">
+                                        <button type="submit" class="deleteBtn"
+                                            onclick="return confirm('Delete this product?');">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -117,7 +118,7 @@ $suppliers = $suppResult->fetch_all(MYSQLI_ASSOC);
     <div class="popup-modal" id="editModal">
         <div class="popup-content">
             <span class="close-btn" id="closeEdit">&times;</span>
-            <h2>Edit Product</h2>
+            <h2>Edit Product Details</h2>
             <form action="product_crud.php" method="POST">
                 <input type="hidden" name="action" value="edit">
                 <input type="hidden" name="id" id="editProductID">

@@ -12,7 +12,7 @@ $result = $connect->query($sql);
 <head>
     <meta charset="UTF-8">
     <title>Supplier Management</title>
-    <link rel="stylesheet" href="../css/crud.css">
+    <link rel="stylesheet" href="../css/cruds.css">
 </head>
 
 <body>
@@ -23,8 +23,10 @@ $result = $connect->query($sql);
             <h1>Supplier Management</h1>
             <input type="text" id="searchInput" placeholder="Search supplier..." class="search-box"><br>
 
+            <button id="openAddModal">Add Supplier</button><br><br>
+
             <!-- Supplier Table -->
-            <div>
+            <div class="table-container">
                 <table>
                     <thead>
                         <tr>
@@ -75,23 +77,23 @@ $result = $connect->query($sql);
                 <input type="hidden" name="action" value="add">
 
                 <div class="form-group">
-                    <label>Name</label>
+                    <label>Name <span class="required">*</span></label>
                     <input type="text" name="name" id="addSupplierName" required>
                 </div>
 
                 <div class="form-group">
-                    <label>Phone</label>
-                    <input type="text" name="phone" id="addSupplierPhone" required>
+                    <label>Phone <span class="required">*</span></label> <input type="text" name="phone"
+                        id="addSupplierPhone" required>
                 </div>
 
                 <div class="form-group">
-                    <label>Email</label>
+                    <label>Email <span class="required">*</span></label>
                     <input type="email" name="email" id="addSupplierEmail" required>
                 </div>
 
                 <div class="form-group">
-                    <label>Address</label>
-                    <textarea name="address" id="addSupplierAddress" required></textarea>
+                    <label>Address <span class="required">*</span></label><br>
+                    <textarea name="address" id="editSupplierAddress" rows="4" cols="65" required></textarea>
                 </div>
 
                 <div class="form-group">
@@ -114,7 +116,7 @@ $result = $connect->query($sql);
     <div class="popup-modal" id="popupModal">
         <div class="popup-content">
             <span class="close-btn" id="closeModal">&times;</span>
-            <h2>Edit Supplier</h2>
+            <h2>Edit Supplier Details</h2>
             <form action="supplier_crud.php" method="POST">
                 <input type="hidden" name="action" value="edit">
                 <input type="hidden" name="id" id="editSupplierID">
@@ -140,8 +142,8 @@ $result = $connect->query($sql);
                 </div>
 
                 <div class="form-group">
-                    <label>Address</label>
-                    <textarea name="address" id="editSupplierAddress" required></textarea>
+                    <label>Address</label><br>
+                    <textarea name="address" id="editSupplierAddress" rows="4" cols="65" required></textarea>
                 </div>
 
                 <div class="form-group">

@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Forgot Password</title>
-    <link rel="stylesheet" href="../css/form.css">
+    <link rel="stylesheet" href="../css/forms.css">
 </head>
 
 <body>
@@ -70,7 +70,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <!-- Forgot Password Form -->
         <form action="forgot_pass.php" method="POST">
             <div class="input-group">
-                <input type="text" id="user_id" name="user_id" placeholder="User ID" required> <!-- Changed staff_id to user_id -->
+                <input type="text" id="user_id" name="user_id" placeholder="User ID" required>
+                <!-- Changed staff_id to user_id -->
                 <span class="icon"><i class='bx bxs-user'></i></span>
             </div>
             <div class="input-group">

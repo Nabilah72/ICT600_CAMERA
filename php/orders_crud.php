@@ -87,4 +87,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['action'] === 'add_order') {
         echo "Error: " . $e->getMessage();
     }
 }
+
+if ($_POST['action'] === 'edit') {
+    $orderID = $_POST['orderID'];
+    $payStatus = $_POST['payStatus'];
+
+    $stmt = $connect->prepare("UPDATE orders SET payStatus = ? WHERE orderID = ?");
+    $stmt->bind_param("si", $payStatus, $orderID);
+    $stmt->execute();
+    $stmt->close();
+
+    header("Location: orders.php");
+    exit();
+}
+
 ?>

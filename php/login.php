@@ -1,3 +1,5 @@
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
 <?php
 session_start(); // Make sure this is at the top
 include "connection.php";
@@ -17,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['staff_id'] = $user_id;
         $_SESSION['staffName'] = $row['userName'];
         $_SESSION['userRole'] = $row['userRole'];  // Correct variable name to 'userRole'
-        header("Location: ../html/homepage.html");
+        header("Location: ../php/homepage.php");
         exit();
     } else {
         $error_message = "Invalid User ID or Password.";
@@ -34,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" href="../css/form.css">
+    <link rel="stylesheet" href="../css/forms.css">
 </head>
 
 <body>

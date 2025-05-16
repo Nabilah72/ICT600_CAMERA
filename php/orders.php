@@ -1,4 +1,5 @@
 <?php
+session_start();
 include "connection.php";
 
 $orders = $connect->query("
@@ -12,12 +13,13 @@ $customers = $connect->query("SELECT custID, custName FROM customer");
 $products = $connect->query("SELECT productID, brand, model, price, qty FROM product");
 ?>
 
+
 <!DOCTYPE html>
 <html>
 
 <head>
     <title>Manage Orders</title>
-    <link rel="stylesheet" href="../css/crud.css">
+    <link rel="stylesheet" href="../css/cruds.css">
 </head>
 
 <body>
@@ -28,50 +30,61 @@ $products = $connect->query("SELECT productID, brand, model, price, qty FROM pro
 
             <input type="text" id="searchInput" placeholder="Search orders..." class="search-box"><br>
 
-            <button id="openAddModal">Add New Order</button><br><br>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th class="sortable">No.</th>
-                        <th class="sortable">Order ID</th>
-                        <th class="sortable">Customer</th>
-                        <th class="sortable">User</th>
-                        <th class="sortable">Date</th>
-                        <th class="sortable">Time</th>
-                        <th class="sortable">Amount (RM)</th>
-                        <th class="sortable">Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $no = 1; ?>
-                    <?php while ($row = $orders->fetch_assoc()): ?>
+            <button id="openAddModal">Add Order</button><br><br>
+            <div class="table-container">
+                <table>
+                    <thead>
                         <tr>
-                            <td><?= $no++ ?></td>
-                            <td><?= $row['orderID'] ?></td>
-                            <td><?= $row['custName'] ?></td>
-                            <td><?= $row['userName'] ?></td>
-                            <td><?= $row['date'] ?></td>
-                            <td><?= $row['time'] ?></td>
-                            <td><?= number_format($row['totalAmount'], 2) ?></td>
-                            <td><?= $row['payStatus'] ?></td>
+                            <th class="sortable">No.</th>
+                            <th class="sortable">Order ID</th>
+                            <th class="sortable">Customer</th>
+                            <th class="sortable">User</th>
+                            <th class="sortable">Date</th>
+                            <th class="sortable">Time</th>
+                            <th class="sortable">Amount (RM)</th>
+                            <th class="sortable">Status</th>
+                            <th>Actions</th>
                         </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php $no = 1; ?>
+                        <?php while ($row = $orders->fetch_assoc()): ?>
+                            <tr>
+                                <td><?= $no++ ?></td>
+                                <td><?= $row['orderID'] ?></td>
+                                <td><?= $row['custName'] ?></td>
+                                <td><?= $row['userName'] ?></td>
+                                <td><?= $row['date'] ?></td>
+                                <td><?= $row['time'] ?></td>
+                                <td><?= number_format($row['totalAmount'], 2) ?></td>
+                                <td><?= $row['payStatus'] ?></td>
+                                <td>
+                                    <button class="edit-btn" data-orderid="<?= $row['orderID'] ?>"
+                                        data-customer="<?= $row['custName'] ?>" data-user="<?= $row['userName'] ?>"
+                                        data-date="<?= $row['date'] ?>" data-time="<?= $row['time'] ?>"
+                                        data-amount="<?= $row['totalAmount'] ?>" data-status="<?= $row['payStatus'] ?>">
+                                        Edit
+                                    </button>
+                                </td>
+                            </tr>
+                        <?php endwhile; ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
+
 
     <!-- Add Order Modal -->
     <div class="popup-modal" id="addModal">
         <div class="popup-content">
             <span class="close-btn" id="closeAdd">&times;</span>
-            <h2>Add New Order</h2>
+            <h2>Add Order</h2>
             <form method="POST" action="orders_crud.php">
                 <input type="hidden" name="action" value="add_order">
 
                 <div class="form-group">
-                    <label>Customer</label>
+                    <label>Customer <span class="required">*</span></label>
                     <select name="custID" required>
                         <option value="">Select Customer</option>
                         <?php while ($row = $customers->fetch_assoc()): ?>
@@ -82,16 +95,13 @@ $products = $connect->query("SELECT productID, brand, model, price, qty FROM pro
 
                 <div class="form-group">
                     <label>User</label>
-                    <select name="userID" required>
-                        <option value="">Select User</option>
-                        <?php while ($row = $users->fetch_assoc()): ?>
-                            <option value="<?= $row['userID'] ?>"><?= $row['userName'] ?></option>
-                        <?php endwhile; ?>
-                    </select>
+                    <input type="text" value="<?= $_SESSION['staffName'] ?>" disabled>
+                    <input type="hidden" name="userID" value="<?= $_SESSION['staff_id'] ?>">
+
                 </div>
 
                 <div id="product-section">
-                    <label>Products</label>
+                    <label>Products <span class="required">*</span></label>
                     <div class="product-row row mb-2">
                         <div class="col-md-4">
                             <select name="productID[]" required>
@@ -124,6 +134,63 @@ $products = $connect->query("SELECT productID, brand, model, price, qty FROM pro
         </div>
     </div>
 
+    <!-- Edit Order Modal -->
+    <div class="popup-modal" id="editModal">
+        <div class="popup-content">
+            <span class="close-btn" id="closeEdit">&times;</span>
+            <h2>Edit Payment Status</h2>
+            <form method="POST" action="orders_crud.php">
+                <input type="hidden" name="action" value="edit">
+                <input type="hidden" name="orderID" id="edit-orderID">
+
+                <div class="form-group">
+                    <label>Order ID</label>
+                    <input type="text" id="edit-orderID-display" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label>Customer</label>
+                    <input type="text" id="edit-customer" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label>User</label>
+                    <input type="text" id="edit-user" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="text" id="edit-date" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label>Time</label>
+                    <input type="text" id="edit-time" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label>Amount (RM)</label>
+                    <input type="text" id="edit-amount" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label>Payment Status</label>
+                    <select name="payStatus" id="edit-payStatus" required>
+                        <option value="Unpaid">Unpaid</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="blueBtn">Update Status</button>
+                    <button type="button" id="cancelEdit">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
     <script src="../js/searchsort.js"></script>
     <script>
         const addModal = document.getElementById('addModal');
@@ -147,6 +214,27 @@ $products = $connect->query("SELECT productID, brand, model, price, qty FROM pro
                 }
             }
         });
+
+        // Handle Edit button click
+        document.querySelectorAll(".edit-btn").forEach(btn => {
+            btn.addEventListener("click", () => {
+                document.getElementById("edit-orderID").value = btn.dataset.orderid;
+                document.getElementById("edit-orderID-display").value = btn.dataset.orderid;
+                document.getElementById("edit-customer").value = btn.dataset.customer;
+                document.getElementById("edit-user").value = btn.dataset.user;
+                document.getElementById("edit-date").value = btn.dataset.date;
+                document.getElementById("edit-time").value = btn.dataset.time;
+                document.getElementById("edit-amount").value = parseFloat(btn.dataset.amount).toFixed(2);
+                document.getElementById("edit-payStatus").value = btn.dataset.status;
+
+                document.getElementById("editModal").classList.add("show");
+            });
+        });
+
+        // Handle closing edit modal
+        document.getElementById("closeEdit").onclick = () => document.getElementById("editModal").classList.remove("show");
+        document.getElementById("cancelEdit").onclick = () => document.getElementById("editModal").classList.remove("show");
+
     </script>
 </body>
 

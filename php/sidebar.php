@@ -1,15 +1,10 @@
-<?php
-session_start();
-
-?>
-
 <!-- Boxicons CDN -->
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 <style>
     .sidebar {
         width: 80px;
-        background-color: #fff;
+        background-color: #333;
         padding: 20px 10px;
         display: flex;
         flex-direction: column;
@@ -37,11 +32,18 @@ session_start();
     }
 
     .logo-img {
+        cursor: pointer;
         width: 40px;
         height: 40px;
         border-radius: 50%;
         object-fit: cover;
         transition: all 0.3s ease;
+    }
+
+    .logo-link {
+        text-decoration: none;
+        color: inherit;
+        display: inline-block;
     }
 
     .sidebar:hover .logo-img {
@@ -51,10 +53,10 @@ session_start();
     }
 
     .logo-text {
+        color: white;
         margin-right: 10px;
         font-size: 1.0rem;
         font-weight: bold;
-        color: #333;
         display: none;
         white-space: nowrap;
     }
@@ -80,7 +82,7 @@ session_start();
         display: flex;
         align-items: center;
         gap: 10px;
-        color: #333;
+        color: white;
         text-decoration: none;
         padding: 10px;
         border-radius: 8px;
@@ -91,12 +93,13 @@ session_start();
 
     .menu-item a i {
         font-size: 23px;
+        color: white;
     }
 
     .menu-item a:hover,
     .menu-item a.active {
-        background-color: #f0f0f0;
-        color: #007bff;
+        background-color: #ffc107;
+        color: #000;
     }
 
     .menu-label {
@@ -119,14 +122,16 @@ session_start();
 </style>
 
 <div class="sidebar">
-    <div class="logo-container">
-        <img src="../images/logo.png" alt="logo" class="logo-img">
-        <span class="logo-text">S.A Camera</span>
-    </div>
+    <a href="../php/homepage.php" class="logo-link">
+        <div class="logo-container">
+            <img src="../images/logo.png" alt="logo" class="logo-img">
+            <span class="logo-text">S.A Camera</span>
+        </div>
+    </a>
 
     <!-- Top Menu -->
     <div class="menu-top">
-        <div class="menu-item"><a href="../html/homepage.html"><i class='bx bxs-home'></i> <span
+        <div class="menu-item"><a href="../php/homepage.php"><i class='bx bxs-home'></i> <span
                     class="menu-label">Home</span></a></div>
 
         <?php if (isset($_SESSION['userRole']) && $_SESSION['userRole'] == 'Admin'): ?>
