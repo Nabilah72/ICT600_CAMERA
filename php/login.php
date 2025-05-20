@@ -8,23 +8,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user_id = $_POST['staff_id'];
     $password = $_POST['password'];
 
-    $sql = "SELECT * FROM users WHERE userID = ? AND userPassword = ?";
+    $sql = "SELECT * FROM users WHERE userID = ?";
     $stmt = $connect->prepare($sql);
-    $stmt->bind_param("ss", $user_id, $password);
+    $stmt->bind_param("s", $user_id);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows === 1) {
         $row = $result->fetch_assoc();
-        $_SESSION['staff_id'] = $user_id;
-        $_SESSION['staffName'] = $row['userName'];
-        $_SESSION['userRole'] = $row['userRole'];  // Correct variable name to 'userRole'
-        header("Location: ../php/homepage.php");
-        exit();
+        if (password_verify($password, $row['userPassword'])) {
+            $_SESSION['staff_id'] = $user_id;
+            $_SESSION['staffName'] = $row['userName'];
+            $_SESSION['userRole'] = $row['userRole'];
+            header("Location: ../php/homepage.php");
+            exit();
+        } else {
+            $error_message = "Invalid User ID or Password.";
+        }
     } else {
         $error_message = "Invalid User ID or Password.";
     }
-
     $stmt->close();
 }
 ?>

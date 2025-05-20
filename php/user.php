@@ -1,5 +1,12 @@
 <?php
+session_start();
 include "connection.php";
+
+$message = "";
+if (isset($_SESSION['message'])) {
+    $message = $_SESSION['message'];
+    unset($_SESSION['message']); // Clear the message after displaying
+}
 
 // Fetch all user records from the database
 $sql = "SELECT * FROM users";
@@ -17,11 +24,15 @@ if (!$result) {
 <head>
     <meta charset="UTF-8">
     <title>User Management</title>
-    <link rel="stylesheet" href="../css/cruds.css">
+    <link rel="stylesheet" href="../css/crud.css">
+    <style>
+        #alertModal {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
-
     <div class="wrapper">
         <?php include 'sidebar.php'; ?>
         <div class="container">
@@ -32,13 +43,13 @@ if (!$result) {
                     <thead>
                         <tr>
                             <th class="sortable">No.</th>
-                            <th class="sortable">ID</th>
+                            <th class="sortable">User ID</th>
                             <th class="sortable">Full Name</th>
                             <th class="sortable">Telephone</th>
                             <th class="sortable">Email</th>
                             <th class="sortable">Role</th>
                             <th class="sortable">Status</th>
-                            <th>Actions</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -94,17 +105,17 @@ if (!$result) {
 
                 <div class="form-group">
                     <label>Full Name</label>
-                    <input type="text" name="userName" id="editUserName" required>
+                    <input type="text" name="userName" id="editUserName" readonly>
                 </div>
 
                 <div class="form-group">
                     <label>Phone</label>
-                    <input type="text" name="userPhone" id="editUserPhone" required>
+                    <input type="text" name="userPhone" id="editUserPhone" readonly>
                 </div>
 
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" name="userEmail" id="editUserEmail" required>
+                    <input type="email" name="userEmail" id="editUserEmail" readonly>
                 </div>
 
                 <div class="form-group">
@@ -130,6 +141,15 @@ if (!$result) {
             </form>
         </div>
     </div>
+    <?php if (!empty($message)): ?>
+        <div class="modal" id="alertModal" style="display: flex;">
+            <div class="modal-content">
+                <p><?php echo htmlspecialchars($message); ?></p>
+                <button class="btn" id="closeAlertBtn">Close</button>
+            </div>
+        </div>
+    <?php endif; ?>
+
     <script src="../js/searchsort.js"></script>
 
     <script>
@@ -193,7 +213,17 @@ if (!$result) {
         window.addEventListener('click', (e) => {
             if (e.target === popupModal) closeModal();
         });
+
+        const alertBtn = document.getElementById('closeAlertBtn');
+        const alertModal = document.getElementById('alertModal');
+        if (alertBtn && alertModal) {
+            alertBtn.addEventListener('click', () => {
+                alertModal.style.display = 'none';
+            });
+        }
+
     </script>
+
 </body>
 
 </html>

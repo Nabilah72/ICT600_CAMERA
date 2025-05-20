@@ -2,15 +2,11 @@
 session_start();
 include "connection.php";
 
+$users_count = mysqli_fetch_assoc(mysqli_query($connect, "SELECT COUNT(*) AS count FROM users"))['count'];
 $product_count = mysqli_fetch_assoc(mysqli_query($connect, "SELECT COUNT(*) AS count FROM product"))['count'];
-$order_count = mysqli_fetch_assoc(mysqli_query($connect, "SELECT COUNT(*) AS count FROM orders"))['count'];
-$customer_count = mysqli_fetch_assoc(mysqli_query($connect, "SELECT COUNT(*) AS count FROM customer"))['count'];
-$sales_result = mysqli_query($connect, "SELECT SUM(subtotal) AS total FROM orders_product");
-$total_sales = mysqli_fetch_assoc($sales_result)['total'] ?? 0;
-$total_sales = number_format($total_sales, 2);
+$supplier_count = mysqli_fetch_assoc(mysqli_query($connect, "SELECT COUNT(*) AS count FROM supplier"))['count'];
+
 ?>
-
-
 <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 <!DOCTYPE html>
@@ -19,7 +15,7 @@ $total_sales = number_format($total_sales, 2);
 <head>
     <meta charset="UTF-8">
     <title>Homepage</title>
-    <link rel="stylesheet" href="../css/cruds.css">
+    <link rel="stylesheet" href="../css/crud.css">
     <style>
         .container {
             text-align: left;
@@ -35,7 +31,7 @@ $total_sales = number_format($total_sales, 2);
             padding: 20px;
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 30px;
             margin: 20px 0;
         }
 
@@ -101,6 +97,7 @@ $total_sales = number_format($total_sales, 2);
         }
 
         .btn-link {
+            box-shadow: 0 4px 8px #ccc;
             text-align: center;
             width: 100%;
             display: inline-block;
@@ -123,9 +120,8 @@ $total_sales = number_format($total_sales, 2);
         .quick-access-wrapper {
             display: flex;
             justify-content: center;
-            gap: 100px;
+            gap: 80px;
             flex-wrap: wrap;
-            margin: 20px 0;
         }
 
         .quick-card {
@@ -141,7 +137,6 @@ $total_sales = number_format($total_sales, 2);
             object-fit: cover;
             border-radius: 50%;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 10px;
         }
 
         hr {
@@ -168,43 +163,33 @@ $total_sales = number_format($total_sales, 2);
                 <p>Overview of critical metrics and operational insights.</p>
             </div>
             <div class="dashboard-cards">
-                <div class="card" style="border-left: 8px solid; border-left-color: #6f42c1;">
+                <div class="card" style="border-left: 10px solid; border-left-color: #6f42c1;">
                     <div class="card-header">
-                        <span>Total Products</span>
-                        <i class='bx bx-box'></i>
+                        <span>Total Users</span>
+                        <i class='bx bx-user'></i>
+                    </div>
+                    <div class="card-body">
+                        <h2><?php echo $users_count; ?></h2>
+                    </div>
+                </div>
+
+                <div class="card" style="border-left: 10px solid; border-left-color: #28a745;">
+                    <div class="card-header">
+                        <span>Total Product</span>
+                        <i class='bx bx-camera'></i>
                     </div>
                     <div class="card-body">
                         <h2><?php echo $product_count; ?></h2>
                     </div>
                 </div>
 
-                <div class="card" style="border-left: 8px solid; border-left-color: #28a745;">
+                <div class="card" style="border-left: 10px solid; border-left-color: #17a2b8;">
                     <div class="card-header">
-                        <span>Total Orders</span>
-                        <i class='bx bx-receipt'></i>
+                        <span>Total Suppliers</span>
+                        <i class='bx bx-building-house'></i>
                     </div>
                     <div class="card-body">
-                        <h2><?php echo $order_count; ?></h2>
-                    </div>
-                </div>
-
-                <div class="card" style="border-left: 8px solid; border-left-color: #17a2b8;">
-                    <div class="card-header">
-                        <span>Total Customers</span>
-                        <i class='bx bx-user'></i>
-                    </div>
-                    <div class="card-body">
-                        <h2><?php echo $customer_count; ?></h2>
-                    </div>
-                </div>
-
-                <div class="card" style="border-left: 8px solid; border-left-color: #ffc107;">
-                    <div class="card-header">
-                        <span>Total Sales</span>
-                        <i class='bx bx-line-chart'></i>
-                    </div>
-                    <div class="card-body">
-                        <h2>RM <?php echo $total_sales; ?></h2>
+                        <h2><?php echo $supplier_count; ?></h2>
                     </div>
                 </div>
 
@@ -217,26 +202,26 @@ $total_sales = number_format($total_sales, 2);
             <br>
             <div class="quick-access-wrapper">
                 <div class="quick-card">
-                    <img src="../images/product.jpg" alt="Product">
-                    <a href="product.php" class="btn-link">Go to Products</a>
-                    <p>Manage product inventory.</p>
+                    <img src="../images/users.png" alt="Users">
+                    <a href="user.php" class="btn-link">Go to Users</a>
+                    <p>Manage user accounts</p>
                 </div>
                 <div class="quick-card">
-                    <img src="../images/order.jpg" alt="Orders">
-                    <a href="orders.php" class="btn-link">Go to Orders</a>
-                    <p>Process customer's orders.</p>
+                    <img src="../images/products.jpg" alt="Product">
+                    <a href="product.php" class="btn-link">Go to Product</a>
+                    <p>Manage product inventory</p>
                 </div>
                 <div class="quick-card">
-                    <img src="../images/sales.jpg" alt="Sales">
-                    <a href="ordersProduct.php" class="btn-link">Go to Sales</a>
-                    <p>Analyze sales performance.</p>
+                    <img src="../images/supplier.jpg" alt="Supplier">
+                    <a href="supplier.php" class="btn-link">Go to Supplier</a>
+                    <p>Manage supplier profile</p>
+                </div>
+                <div class="quick-card">
+                    <img src="../images/profile.png" alt="Profile">
+                    <a href="profile.php" class="btn-link">Go to Profile</a>
+                    <p>Manage your own profile</p>
+                </div>
 
-                </div>
-                <div class="quick-card">
-                    <img src="../images/customers.jpg" alt="Customers">
-                    <a href="customer.php" class="btn-link">Go to Customers</a>
-                    <p>Manage customer profile.</p>
-                </div>
             </div>
 
         </div>

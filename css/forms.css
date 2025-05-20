@@ -98,7 +98,7 @@ input[type="text"],
 input[type="password"] {
     width: 95%;
     padding: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     border: none;
     background-color: #fff;
     transition: 0.3s;

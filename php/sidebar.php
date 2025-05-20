@@ -128,29 +128,19 @@
             <span class="logo-text">S.A Camera</span>
         </div>
     </a>
-
-    <!-- Top Menu -->
     <div class="menu-top">
         <div class="menu-item"><a href="../php/homepage.php"><i class='bx bxs-home'></i> <span
                     class="menu-label">Home</span></a></div>
-
-        <?php if (isset($_SESSION['userRole']) && $_SESSION['userRole'] == 'Admin'): ?>
-            <div class="menu-item"><a href="../php/user.php"><i class='bx bxs-user'></i> <span
-                        class="menu-label">User</span></a></div>
-            <div class="menu-item"><a href="../php/supplier.php"><i class='bx bxs-truck'></i> <span
-                        class="menu-label">Supplier</span></a></div>
-        <?php endif; ?>
-
+        <div class="menu-item"><a href="../php/user.php"><i class='bx bxs-user'></i> <span
+                    class="menu-label">User</span></a></div>
         <div class="menu-item"><a href="../php/product.php"><i class='bx bxs-camera'></i><span
                     class="menu-label">Product</span></a></div>
-        <div class="menu-item"><a href="../php/orders.php"><i class='bx bxs-cart'></i><span
-                    class="menu-label">Order</span></a></div>
-        <div class="menu-item"><a href="../php/ordersProduct.php"><i class='bx bxs-chart line'></i><span
-                    class="menu-label">Sales</span></a></div>
-        <div class="menu-item"><a href="../php/customer.php"><i class='bx bxs-group'></i> <span
-                    class="menu-label">Customer</span></a></div>
+        <div class="menu-item"><a href="../php/supplier.php"><i class='bx bxs-truck'></i> <span
+                    class="menu-label">Supplier</span></a></div>
     </div>
     <div class="menu-bottom">
+        <div class="menu-item"><a href="../php/profile.php"><i class='bx bxs-user'></i> <span
+                    class="menu-label">Profile</span></a></div>
         <div class="menu-item">
             <a href="../php/login.php" onclick="return confirmLogout();">
                 <i class='bx bxs-log-out'></i>

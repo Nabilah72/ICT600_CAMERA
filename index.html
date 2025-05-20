@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome - Camera Inventory System</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: radial-gradient(circle at top right, #eee 0%, #333 50%);
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        .logo {
+            margin-bottom: 40px;
+        }
+
+        .logo img {
+            width: 120px;
+            height: auto;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 200px;
+        }
+
+        .button-container a {
+            text-decoration: none;
+            text-align: center;
+            padding: 12px;
+            background-color: #ffc107;
+            color: black;
+            font-weight: bold;
+            border-radius: 20px;
+            transition: background-color 0.3s;
+        }
+
+        .button-container a:hover {
+            background-color: #FFD700;
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(255, 193, 7, 0.6);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="logo">
+        <img src="images/logo.png" alt="Camera Inventory Logo">
+    </div>
+
+    <div class="button-container">
+        <a href="php/login.php">Login</a>
+        <a href="php/signup.php">Register</a>
+    </div>
+
+</body>
+
+</html>
