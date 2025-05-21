@@ -1,8 +1,9 @@
 <?php
+// Start the session and include the database connection
 session_start();
 include "connection.php";
 
-// Prepare alert message from query parameters
+// Prepare alert message based on URL parameters
 $alertMessage = '';
 if (isset($_GET['success'])) {
     switch ($_GET['success']) {
@@ -30,14 +31,14 @@ if (isset($_GET['success'])) {
     }
 }
 
-// Fetch all product records
+// Fetch all products with supplier names
 $sql = "SELECT p.*, s.suppName
         FROM product p
         JOIN supplier s ON p.suppID = s.suppID
         ORDER BY p.productID";
 $result = $connect->query($sql) or die("Query failed: " . $connect->error);
 
-// Fetch suppliers for the dropdown
+// Fetch all suppliers for the dropdown
 $suppResult = $connect->query("SELECT * FROM supplier") or die("Query failed: " . $connect->error);
 $suppliers = $suppResult->fetch_all(MYSQLI_ASSOC);
 ?>
@@ -48,25 +49,21 @@ $suppliers = $suppResult->fetch_all(MYSQLI_ASSOC);
 <head>
     <meta charset="UTF-8">
     <title>Product Management</title>
-    <link rel="stylesheet" href="../css/crud.css">
-    <style>
-        /* Ensure modal components are hidden by default */
-        .popup-modal,
-        #alertModal {
-            display: none;
-        }
-    </style>
+    <!-- External CSS -->
+    <link rel="stylesheet" href="../css/cruds.css">
 </head>
 
 <body>
     <div class="wrapper">
         <?php include 'sidebar.php'; ?>
-
         <div class="container">
             <h1>Product Management</h1>
+
+            <!-- Search box & Add button -->
             <input type="text" id="searchInput" placeholder="Search product..." class="search-box">
             <button id="openAddModal" class="blueBtn">Add Product</button><br><br>
 
+            <!-- Product table -->
             <div class="table-container">
                 <table>
                     <thead>
@@ -97,6 +94,7 @@ $suppliers = $suppResult->fetch_all(MYSQLI_ASSOC);
                                 <td><?= number_format($row['price'], 2) ?></td>
                                 <td><?= htmlspecialchars($row['qty']) ?></td>
                                 <td>
+                                    <!-- Edit button stores data -->
                                     <button class="editBtn" data-id="<?= htmlspecialchars($row['productID']) ?>"
                                         data-suppid="<?= htmlspecialchars($row['suppID']) ?>"
                                         data-shelf="<?= htmlspecialchars($row['shelf']) ?>"
@@ -107,6 +105,7 @@ $suppliers = $suppResult->fetch_all(MYSQLI_ASSOC);
                                         data-qty="<?= htmlspecialchars($row['qty']) ?>">
                                         Edit
                                     </button>
+                                    <!-- Delete form -->
                                     <form action="product_crud.php" method="POST" style="display:inline;">
                                         <input type="hidden" name="action" value="delete">
                                         <input type="hidden" name="id" value="<?= htmlspecialchars($row['productID']) ?>">
@@ -133,6 +132,7 @@ $suppliers = $suppResult->fetch_all(MYSQLI_ASSOC);
                 <input type="hidden" name="action" value="add" id="formAction">
                 <input type="hidden" name="id" id="productID">
 
+                <!-- Supplier dropdown -->
                 <div class="form-group">
                     <label>Supplier <span class="required">*</span></label>
                     <select name="suppID" id="suppID" required>
@@ -143,7 +143,7 @@ $suppliers = $suppResult->fetch_all(MYSQLI_ASSOC);
                         <?php endforeach; ?>
                     </select>
                 </div>
-
+                <!-- Shelf & Category fields -->
                 <div class="form-group">
                     <label>Shelf <span class="required">*</span></label>
                     <input type="text" name="shelf" id="shelf" required>
@@ -153,7 +153,7 @@ $suppliers = $suppResult->fetch_all(MYSQLI_ASSOC);
                     <label>Category <span class="required">*</span></label>
                     <input type="text" name="category" id="category" required>
                 </div>
-
+                <!-- Brand & Model fields -->
                 <div class="form-row">
                     <div class="form-group half-width">
                         <label>Brand <span class="required">*</span></label>
@@ -164,7 +164,7 @@ $suppliers = $suppResult->fetch_all(MYSQLI_ASSOC);
                         <input type="text" name="model" id="model" required>
                     </div>
                 </div>
-
+                <!-- Price & Quantity fields -->
                 <div class="form-row">
                     <div class="form-group half-width">
                         <label>Price (RM) <span class="required">*</span></label>
@@ -175,7 +175,7 @@ $suppliers = $suppResult->fetch_all(MYSQLI_ASSOC);
                         <input type="number" name="qty" id="qty" required>
                     </div>
                 </div>
-
+                <!-- Form actions -->
                 <div class="form-actions">
                     <button class="blueBtn" type="submit" id="submitBtn">Save</button>
                     <button type="button" id="cancelBtn">Cancel</button>
@@ -194,9 +194,9 @@ $suppliers = $suppResult->fetch_all(MYSQLI_ASSOC);
         </div>
     <?php endif; ?>
 
-    <script src="../js/searchsort.js"></script>
+    <script src="../js/searchsort.js"></script> <!-- Table search & sort -->
     <script>
-        // Product modal logic
+        // Modal element references
         const productModal = document.getElementById('productModal');
         const openAddBtn = document.getElementById('openAddModal');
         const closeBtn = document.getElementById('closeModal');
@@ -205,6 +205,7 @@ $suppliers = $suppResult->fetch_all(MYSQLI_ASSOC);
         const formAction = document.getElementById('formAction');
         const productID = document.getElementById('productID');
 
+        // Form fields mapping
         const fields = {
             suppID: document.getElementById('suppID'),
             shelf: document.getElementById('shelf'),
@@ -215,6 +216,7 @@ $suppliers = $suppResult->fetch_all(MYSQLI_ASSOC);
             qty: document.getElementById('qty'),
         };
 
+        // Open modal in add or edit mode
         function openModal(mode, data = {}) {
             productModal.style.display = 'flex';
             setTimeout(() => productModal.classList.add('show'), 10);
@@ -238,16 +240,19 @@ $suppliers = $suppResult->fetch_all(MYSQLI_ASSOC);
             }
         }
 
+        // Close modal with animation
         function closeModal() {
             productModal.classList.remove('show');
             setTimeout(() => { productModal.style.display = 'none'; }, 300);
         }
 
+        // Event listeners for modal controls
         openAddBtn.addEventListener('click', () => openModal('add'));
         closeBtn.addEventListener('click', closeModal);
         cancelBtn.addEventListener('click', closeModal);
         window.addEventListener('click', e => { if (e.target === productModal) closeModal(); });
 
+        // Edit buttons populate modal with existing data
         document.querySelectorAll('.editBtn').forEach(btn => {
             btn.addEventListener('click', () => {
                 openModal('edit', {

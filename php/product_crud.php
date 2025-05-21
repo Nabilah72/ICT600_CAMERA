@@ -1,7 +1,9 @@
 <?php
+// Start the session and include the database connection
 session_start();
 include "connection.php";
 
+// Generate a new Product ID
 function generateProductID($connect)
 {
     $sql = "
@@ -16,13 +18,16 @@ function generateProductID($connect)
     return 'PRO' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
 }
 
+// Convert text to Title Case
 function titleCase($string)
 {
     return ucwords(strtolower(trim($string)));
 }
 
+// Determine action: add, edit, or delete
 $action = $_POST['action'] ?? $_GET['action'] ?? '';
 
+// Add new product
 if ($action === 'add') {
     $productID = generateProductID($connect);
     $category = titleCase($_POST['category']);
@@ -47,7 +52,9 @@ if ($action === 'add') {
     $stmt->execute()
         ? header("Location: product.php?success=added")
         : header("Location: product.php?error=add");
-} elseif ($action === 'edit') {
+}
+// Update existing product
+elseif ($action === 'edit') {
     $category = titleCase($_POST['category']);
     $model = titleCase($_POST['model']);
 
@@ -69,7 +76,9 @@ if ($action === 'add') {
     $stmt->execute()
         ? header("Location: product.php?success=updated")
         : header("Location: product.php?error=update");
-} elseif ($action === 'delete') {
+}
+// Delete product by ID
+elseif ($action === 'delete') {
     $stmt = $connect->prepare("DELETE FROM product WHERE productID = ?");
     $stmt->bind_param("s", $_POST['id']);
     $stmt->execute()

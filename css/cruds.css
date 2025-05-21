@@ -164,6 +164,7 @@ td button:hover {
     cursor: pointer;
 }
 
+input[type="tel"],
 input[type="text"],
 input[type="email"],
 input[type="number"],
@@ -274,6 +275,7 @@ button[type="button"] {
 }
 
 .modal {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;

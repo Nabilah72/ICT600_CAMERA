@@ -1,7 +1,9 @@
 <?php
+// Start the session and include the database connection
 session_start();
 include "connection.php";
 
+// Generate new supplier ID
 function generateSupplierID($connect)
 {
     $sql = "SELECT MAX(CAST(SUBSTRING(suppID, 4) AS UNSIGNED)) AS maxID FROM supplier WHERE suppID LIKE 'SUP%'";
@@ -10,6 +12,7 @@ function generateSupplierID($connect)
     return 'SUP' . str_pad($newNumber, 3, '0', STR_PAD_LEFT);
 }
 
+// Convert string to title case
 function titleCase($string)
 {
     return ucwords(strtolower(trim($string)));
@@ -17,6 +20,7 @@ function titleCase($string)
 
 $action = $_POST['action'] ?? $_GET['action'] ?? '';
 
+// Add new supplier
 if ($action === 'add') {
     $suppID = generateSupplierID($connect);
     $name = titleCase($_POST['name']);
@@ -32,7 +36,9 @@ if ($action === 'add') {
     $stmt = $connect->prepare("INSERT INTO supplier (suppID, suppName, suppPhone, suppEmail, suppAddress, suppStatus) VALUES (?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("ssssss", $suppID, $name, $phone, $email, $address, $status);
     $stmt->execute() ? header("Location: supplier.php?success=added") : header("Location: supplier.php?error=add");
-} elseif ($action === 'edit') {
+}
+// Edit existing supplier
+elseif ($action === 'edit') {
     $stmt = $connect->prepare("SELECT * FROM supplier WHERE suppID = ?");
     $stmt->bind_param("s", $_POST['id']);
     $stmt->execute();
@@ -55,12 +61,16 @@ if ($action === 'add') {
     } else {
         header("Location: supplier.php?error=invalidID");
     }
-} elseif ($action === 'delete') {
+}
+// Delete supplier
+elseif ($action === 'delete') {
     $stmt = $connect->prepare("DELETE FROM supplier WHERE suppID = ?");
     $stmt->bind_param("s", $_POST['id']);
     $stmt->execute() ? header("Location: supplier.php?success=deleted") : header("Location: supplier.php?error=delete");
     exit;
-} else {
+}
+// Redirect if no valid action
+else {
     header("Location: supplier.php");
     exit;
 }

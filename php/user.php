@@ -1,7 +1,9 @@
 <?php
+// Start the session and include the database connection
 session_start();
 include "connection.php";
 
+// Initialize a message variable to display feedback
 $message = "";
 if (isset($_SESSION['message'])) {
     $message = $_SESSION['message'];
@@ -24,19 +26,17 @@ if (!$result) {
 <head>
     <meta charset="UTF-8">
     <title>User Management</title>
-    <link rel="stylesheet" href="../css/crud.css">
-    <style>
-        #alertModal {
-            display: none;
-        }
-    </style>
+    <!-- Link to external for CSS -->
+    <link rel="stylesheet" href="../css/cruds.css">
 </head>
 
 <body>
     <div class="wrapper">
+        <!-- Include sidebar navigation -->
         <?php include 'sidebar.php'; ?>
         <div class="container">
             <h1>User Management</h1>
+            <!-- Search box for filtering user table -->
             <input type="text" id="searchInput" placeholder="Search User..." class="search-box">
             <div class="table-container">
                 <table>
@@ -54,6 +54,7 @@ if (!$result) {
                     </thead>
                     <tbody>
                         <?php
+                        // Display user records dynamically
                         if ($result->num_rows > 0) {
                             $no = 1;
                             while ($row = $result->fetch_assoc()) {
@@ -65,6 +66,8 @@ if (!$result) {
                                 echo "<td>" . htmlspecialchars($row['userEmail']) . "</td>";
                                 echo "<td>" . htmlspecialchars($row['userRole']) . "</td>";
                                 echo "<td>" . htmlspecialchars($row['userStatus']) . "</td>";
+
+                                // Button for editing user details
                                 echo "<td>
                                 <button 
                                     class='btn btn-warning editBtn'
@@ -89,35 +92,43 @@ if (!$result) {
         </div>
     </div>
 
-    <!-- Reusable Modal -->
+    <!-- Modal for editing user -->
     <div class="popup-modal" id="popupModal">
         <div class="popup-content">
+            <!-- Close modal button -->
             <span class="close-btn" id="closeModal">&times;</span>
             <h2>Edit User Details</h2>
+            <!-- Form to submit updated user details -->
             <form action="user_crud.php" method="POST">
+                <!-- Hidden fields to send action type and user ID -->
                 <input type="hidden" name="action" value="update">
                 <input type="hidden" name="userID" id="editUserID">
 
+                <!-- Display User ID (read-only) -->
                 <div class="form-group">
                     <label>User ID</label>
                     <input type="text" id="editUserIDDisplay" disabled>
                 </div>
 
+                <!-- Full Name (read-only) -->
                 <div class="form-group">
                     <label>Full Name</label>
                     <input type="text" name="userName" id="editUserName" readonly>
                 </div>
 
+                <!-- Phone (read-only) -->
                 <div class="form-group">
                     <label>Phone</label>
-                    <input type="text" name="userPhone" id="editUserPhone" readonly>
+                    <input type="tel" name="userPhone" id="editUserPhone" readonly>
                 </div>
 
+                <!-- Email (read-only) -->
                 <div class="form-group">
                     <label>Email</label>
                     <input type="email" name="userEmail" id="editUserEmail" readonly>
                 </div>
 
+                <!-- Role selection (editable) -->
                 <div class="form-group">
                     <label>Role</label>
                     <select name="userRole" id="editUserRole" required>
@@ -126,6 +137,7 @@ if (!$result) {
                     </select>
                 </div>
 
+                <!-- Status selection (editable) -->
                 <div class="form-group">
                     <label>Status</label>
                     <select name="userStatus" id="editUserStatus" required>
@@ -134,6 +146,7 @@ if (!$result) {
                     </select>
                 </div>
 
+                <!-- Submit and cancel buttons -->
                 <div class="form-actions">
                     <button class="blueBtn" type="submit">Save Changes</button>
                     <button type="button" id="cancelModal">Cancel</button>
@@ -141,6 +154,8 @@ if (!$result) {
             </form>
         </div>
     </div>
+
+    <!-- Display success/failure message as modal -->
     <?php if (!empty($message)): ?>
         <div class="modal" id="alertModal" style="display: flex;">
             <div class="modal-content">
@@ -150,9 +165,11 @@ if (!$result) {
         </div>
     <?php endif; ?>
 
+    <!-- JavaScript for search/sort table -->
     <script src="../js/searchsort.js"></script>
 
     <script>
+        // DOM references for modal and form fields
         const popupModal = document.getElementById('popupModal');
         const closeModalBtn = document.getElementById('closeModal');
         const cancelModalBtn = document.getElementById('cancelModal');
@@ -167,6 +184,7 @@ if (!$result) {
             status: document.getElementById('editUserStatus'),
         };
 
+        // Show the modal and fill the fields with user data
         function showModal(data) {
             popupModal.style.display = 'flex';
             setTimeout(() => popupModal.classList.add('show'), 10);
@@ -180,6 +198,7 @@ if (!$result) {
             editFields.status.value = data.status;
         }
 
+        // Hide and reset modal
         function closeModal() {
             popupModal.classList.remove('show');
             setTimeout(() => {
@@ -190,8 +209,9 @@ if (!$result) {
                         field.value = '';
                     }
                 });
-            }, 300); // Match with the CSS transition duration
+            }, 300); // Match with CSS animation delay
         }
+
 
         // Attach click event to each edit button
         document.querySelectorAll('.editBtn').forEach(button => {
@@ -207,13 +227,16 @@ if (!$result) {
             });
         });
 
+        // Attach modal close behavior
         closeModalBtn.addEventListener('click', closeModal);
         cancelModalBtn.addEventListener('click', closeModal);
 
+        // Close modal if user clicks outside the popup
         window.addEventListener('click', (e) => {
             if (e.target === popupModal) closeModal();
         });
 
+        // Close alert modal
         const alertBtn = document.getElementById('closeAlertBtn');
         const alertModal = document.getElementById('alertModal');
         if (alertBtn && alertModal) {
@@ -221,7 +244,6 @@ if (!$result) {
                 alertModal.style.display = 'none';
             });
         }
-
     </script>
 
 </body>

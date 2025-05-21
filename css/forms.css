@@ -68,7 +68,7 @@ h2 {
 
 .input-group .icon {
     position: absolute;
-    right: 25px;
+    right: 15px;
     top: 10px;
     color: #333;
 }
@@ -91,6 +91,7 @@ h2 {
 }
 
 input[type="staff_id"],
+input[type="number"],
 input[type="tel"],
 input[type="email"],
 input[type="role"],
@@ -151,6 +152,29 @@ a:hover {
     text-align: center;
     margin-bottom: 15px;
 }
+
+
+/* Password strength meter bar */
+.strength-meter {
+    height: 8px;
+    background: #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 4px;
+}
+
+.strength-meter__fill {
+    height: 100%;
+    width: 0%;
+    transition: width 0.3s ease, background-color 0.3s ease;
+}
+
+/* Text feedback */
+#strengthMessage {
+    font-size: 0.9em;
+    margin-top: 4px;
+}
+
 
 /* Add responsiveness for smaller screens */
 @media screen and (max-width: 480px) {
